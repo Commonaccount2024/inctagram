@@ -37,3 +37,7 @@ next-env.d.ts
 
 # style config
 /watchers.xml
+
+/.idea
+/storybook-static
+.env
