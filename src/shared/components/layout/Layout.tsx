@@ -1,11 +1,11 @@
+import s from '@/shared/components/layout/layout.module.scss'
 import { NavBar } from '@/shared/components/navBar/NavBar'
-import styles from '@/styles/Home.module.css'
 import { NextPage } from 'next'
 import { PropsWithChildren, ReactElement } from 'react'
 
 export const Layout: NextPage<PropsWithChildren> = ({ children }) => {
   return (
-    <main className={styles.main}>
+    <main className={s.main}>
       <NavBar />
       {children}
     </main>
