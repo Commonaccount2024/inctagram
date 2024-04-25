@@ -1,4 +1,7 @@
 import type { Preview } from '@storybook/react'
+import '@fontsource-variable/inter';
+import '@fontsource/roboto';
+
 
 const preview: Preview = {
   parameters: {
