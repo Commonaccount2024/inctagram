@@ -3,8 +3,6 @@ import styles from '@/styles/Home.module.css'
 import { NextPage } from 'next'
 import { PropsWithChildren, ReactElement } from 'react'
 
-type Props = {}
-
 export const Layout: NextPage<PropsWithChildren> = ({ children }) => {
   return (
     <main className={styles.main}>
