@@ -4,7 +4,7 @@ pipeline {
     agent any
     environment {
         ENV_TYPE = "production"
-        PORT = 3349
+        PORT = 3350
         NAMESPACE = "it-inctagram-ru"
         REGISTRY_HOSTNAME = "itincubator"
         REGISTRY = "registry.hub.docker.com"
