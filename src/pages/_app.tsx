@@ -1,9 +1,10 @@
-import '@/styles/globals.css'
-import '@fontsource-variable/inter'
-import '@fontsource/roboto'
+import type { AppProps } from 'next/app'
+
 import { Layout } from '@/shared/components/layout/Layout'
 
-import type { AppProps } from 'next/app'
+import '@/styles/globals.css'
+import '@fontsource/roboto'
+import '@fontsource-variable/inter'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
