@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <>
       <HeadMeta title={'Create Next App'} />
-      Main123
+      Main12345
     </>
   )
 }
