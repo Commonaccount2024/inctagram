@@ -9,7 +9,11 @@ const nextConfig = {
   //       pathname: '/api/character/avatar/**'
   //     }
   //   ]
-  // }
+  // },
+  i18n: {
+    locales: ["en", "ru"],
+    defaultLocale: "ru",
+  },
 };
 
 export default nextConfig;
