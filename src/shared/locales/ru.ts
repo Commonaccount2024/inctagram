@@ -1,19 +1,20 @@
 export const ru = {
   test: 'Lorem Ipsum - это текст-"рыба", часто используемый в печати ',
+  title: 'Главная страница',
   singUpPage: {
-    title: 'Страница регистрации'
+    title: 'Регистрация'
   },
   singInPage: {
-    title: 'Страница авторизации'
+    title: 'Авторизация'
   },
   passwordRecoveryPage: {
-    title: 'Страница восстановления пароля'
+    title: 'Восстановления пароля'
   },
   forgotPasswordPage: {
-    title: 'Страница забыл пароль'
+    title: 'Забыл пароль'
   },
   createNewPasswordPage: {
-    title: 'Страница создания нового пароля'
+    title: 'Создания нового пароля'
   },
 }
 

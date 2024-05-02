@@ -6,7 +6,7 @@ export default function CreateNewPassword() {
 
   return (
     <>
-      <HeadMeta title={'CreateNewPassword'} />
+      <HeadMeta title={routerLocale.createNewPasswordPage.title} />
       <h1>{routerLocale.createNewPasswordPage.title}</h1>
     </>
   )
