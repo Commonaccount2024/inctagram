@@ -5,7 +5,7 @@ export default function SingIn() {
   const routerLocale = useRouterLocaleDefination()
   return (
     <>
-      <HeadMeta title={'SingIn'} />
+      <HeadMeta title={routerLocale.singInPage.title} />
       <h1>{routerLocale.singInPage.title}</h1>
     </>
   )

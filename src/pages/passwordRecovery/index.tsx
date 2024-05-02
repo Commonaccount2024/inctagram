@@ -6,7 +6,7 @@ export default function PasswordRecovery() {
 
   return (
     <>
-      <HeadMeta title={'PasswordRecovery'} />
+      <HeadMeta title={routerLocale.passwordRecoveryPage.title} />
       <h1>{routerLocale.passwordRecoveryPage.title}</h1>
     </>
   )
