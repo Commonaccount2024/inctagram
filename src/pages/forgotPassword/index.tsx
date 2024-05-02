@@ -1,4 +1,4 @@
-import { useRouterLocaleDefination } from 'hooks/useRouterLocaleDefination'
+import { useRouterLocaleDefination } from '@/shared/hooks/useRouterLocaleDefination'
 import { HeadMeta } from '@/shared/components/headMeta/HeadMeta'
 
 export default function ForgotPassword() {

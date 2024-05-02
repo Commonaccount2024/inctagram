@@ -1,5 +1,5 @@
-import { en } from "locales/en";
-import { ru } from "locales/ru";
+import { en } from "@/shared/locales/en";
+import { ru } from "@/shared/locales/ru";
 import { useRouter } from "next/router";
 
 
