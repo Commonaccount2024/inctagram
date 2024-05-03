@@ -1,10 +1,13 @@
 import { HeadMeta } from '@/shared/components/headMeta/HeadMeta'
+import { useRouterLocaleDefination } from '@/shared/hooks/useRouterLocaleDefination'
 
-export default function ForgetPassword() {
+export default function ForgotPassword() {
+  const routerLocale = useRouterLocaleDefination()
+
   return (
     <>
-      <HeadMeta title={'ForgetPassword'} />
-      ForgetPassword
+      <HeadMeta title={routerLocale.forgotPasswordPage.title} />
+      <h1>{routerLocale.forgotPasswordPage.title}</h1>
     </>
   )
 }
