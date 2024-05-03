@@ -1,16 +1,19 @@
+import { useRouterLocaleDefination } from '@/shared/hooks/useRouterLocaleDefination'
 import Link from 'next/link'
 
 import s from '@/shared/components/navBar/navBar.module.scss'
 
 export const NavBar = () => {
+  const routerLocale = useRouterLocaleDefination()
+
   return (
     <div className={s.navBar}>
-      <Link href={'/'}>Main</Link>
-      <Link href={'/singUp'}>Sing up</Link>
-      <Link href={'/singIn'}>Sing in</Link>
-      <Link href={'/passwordRecovery'}>Password recovery</Link>
-      <Link href={'/forgotPassword'}>Forgot password</Link>
-      <Link href={'/createNewPassword'}>Create new password</Link>
+      <Link href={'/'}>{routerLocale.test}</Link>
+      <Link href={'/singUp'}>{routerLocale.singUpPage.title}</Link>
+      <Link href={'/singIn'}>{routerLocale.singInPage.title}</Link>
+      <Link href={'/passwordRecovery'}>{routerLocale.passwordRecoveryPage.title}</Link>
+      <Link href={'/forgotPassword'}>{routerLocale.forgotPasswordPage.title}</Link>
+      <Link href={'/createNewPassword'}>{routerLocale.createNewPasswordPage.title}</Link>
     </div>
   )
 }
