@@ -16,5 +16,5 @@ export const en: LocaleType = {
   singUpPage: {
     title: 'Sing up page',
   },
-  test: 'Lorem Ipsum is simply dummy text of the printing',
+  test: 'Main page',
 }
