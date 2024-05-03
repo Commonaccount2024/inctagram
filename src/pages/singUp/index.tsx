@@ -6,7 +6,7 @@ export default function SingUp() {
 
   return (
     <>
-      <HeadMeta title={'SingUp'} />
+      <HeadMeta title={routerLocale.singUpPage.title} />
       <h1>{routerLocale.singUpPage.title}</h1>
     </>
   )

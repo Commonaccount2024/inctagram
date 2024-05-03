@@ -7,7 +7,7 @@ export default function Home() {
 
   return (
     <>
-      <HeadMeta title={'Create Next App'} />
+      <HeadMeta title={routerLocale.test} />
       <h1 style={{ marginBottom: 30 }}>{routerLocale.test}</h1>
       <Button>Hello</Button>
     </>
