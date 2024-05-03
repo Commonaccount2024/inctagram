@@ -16,6 +16,6 @@ export const en: LocaleType = {
   singUpPage: {
     title: 'Sing up page',
   },
-  title: 'Main page',
   test: 'Main page',
+  title: 'Main page',
 }

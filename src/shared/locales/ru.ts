@@ -14,8 +14,8 @@ export const ru = {
   singUpPage: {
     title: 'Регистрация',
   },
-  test: 'Lorem Ipsum - это текст-"рыба", часто используемый в печати ',
+  test: 'Главная страница',
   title: 'Главная страница',
 }
 
-export type LocaleType = typeof ru;
+export type LocaleType = typeof ru
