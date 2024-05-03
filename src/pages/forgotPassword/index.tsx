@@ -6,7 +6,7 @@ export default function ForgotPassword() {
 
   return (
     <>
-      <HeadMeta title={'ForgetPassword'} />
+      <HeadMeta title={routerLocale.forgotPasswordPage.title} />
       <h1>{routerLocale.forgotPasswordPage.title}</h1>
     </>
   )
