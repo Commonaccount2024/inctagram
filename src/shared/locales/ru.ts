@@ -18,4 +18,4 @@ export const ru = {
   title: 'Главная страница',
 }
 
-export type LocaleType = typeof ru
+export type LocaleType = typeof ru;
