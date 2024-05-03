@@ -1,5 +1,5 @@
-import { useRouterLocaleDefination } from '@/shared/hooks/useRouterLocaleDefination'
 import { HeadMeta } from '@/shared/components/headMeta/HeadMeta'
+import { useRouterLocaleDefination } from '@/shared/hooks/useRouterLocaleDefination'
 import { Button } from '@commonaccount2024/inctagram-ui-kit'
 
 export default function Home() {
