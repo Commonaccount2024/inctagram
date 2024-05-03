@@ -1,21 +1,21 @@
-import { LocaleType } from "./ru";
+import { LocaleType } from './ru'
 
 export const en: LocaleType = {
-  test: 'Lorem Ipsum is simply dummy text of the printing',
-  title: 'Main page',
-  singUpPage: {
-    title: 'Sing up page'
-  },
-  singInPage: {
-    title: 'Sing in page'
-  },
-  passwordRecoveryPage: {
-    title: 'Password recovery page'
+  createNewPasswordPage: {
+    title: 'Create new password page',
   },
   forgotPasswordPage: {
-    title: 'Forgot password page'
+    title: 'Forgot password page',
   },
-  createNewPasswordPage: {
-    title: 'Create new password page'
+  passwordRecoveryPage: {
+    title: 'Password recovery page',
   },
+  singInPage: {
+    title: 'Sing in page',
+  },
+  singUpPage: {
+    title: 'Sing up page',
+  },
+  test: 'Lorem Ipsum is simply dummy text of the printing',
+  title: 'Main page',
 }
