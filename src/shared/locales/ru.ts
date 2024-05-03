@@ -1,21 +1,20 @@
 export const ru = {
-  test: 'Lorem Ipsum - это текст-"рыба", часто используемый в печати ',
-  title: 'Главная страница',
-  singUpPage: {
-    title: 'Регистрация'
-  },
-  singInPage: {
-    title: 'Авторизация'
-  },
-  passwordRecoveryPage: {
-    title: 'Восстановления пароля'
+  createNewPasswordPage: {
+    title: 'Страница создания нового пароля',
   },
   forgotPasswordPage: {
-    title: 'Забыл пароль'
+    title: 'Страница забыл пароль',
   },
-  createNewPasswordPage: {
-    title: 'Создания нового пароля'
+  passwordRecoveryPage: {
+    title: 'Страница восстановления пароля',
   },
+  singInPage: {
+    title: 'Страница авторизации',
+  },
+  singUpPage: {
+    title: 'Страница регистрации',
+  },
+  test: 'Lorem Ipsum - это текст-"рыба", часто используемый в печати ',
 }
 
-export type LocaleType = typeof ru;
+export type LocaleType = typeof ru
