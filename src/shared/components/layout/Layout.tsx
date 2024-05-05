@@ -1,6 +1,6 @@
 import { PropsWithChildren, ReactElement } from 'react'
 
-import LangSelect from '@/shared/components/LandSelect/LangSelect'
+import LangSelect from '@/shared/components/LangSelect/LangSelect'
 import { NavBar } from '@/shared/components/navBar/NavBar'
 import { NextPage } from 'next'
 

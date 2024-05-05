@@ -1,20 +1,21 @@
 export const ru = {
   createNewPasswordPage: {
-    title: 'Страница создания нового пароля',
+    title: 'Создания нового пароля',
   },
   forgotPasswordPage: {
-    title: 'Страница забыл пароль',
+    title: 'Забыл пароль',
   },
   passwordRecoveryPage: {
-    title: 'Страница восстановления пароля',
+    title: 'Восстановления пароля',
   },
   singInPage: {
-    title: 'Страница авторизации',
+    title: 'Авторизация',
   },
   singUpPage: {
-    title: 'Страница регистрации',
+    title: 'Регистрация',
   },
   test: 'Главная страница',
+  title: 'Главная страница',
 }
 
 export type LocaleType = typeof ru
