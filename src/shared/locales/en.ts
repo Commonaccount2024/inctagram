@@ -11,10 +11,10 @@ export const en: LocaleType = {
     title: 'Password recovery page',
   },
   singInPage: {
-    title: 'Sing in page',
+    title: 'Sign in page',
   },
   singUpPage: {
-    title: 'Sing up page',
+    title: 'Sign up page',
   },
   test: 'Main page',
   title: 'Main page',

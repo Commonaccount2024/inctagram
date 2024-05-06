@@ -26,11 +26,16 @@ export function RegistrationForm() {
     register,
     handleSubmit,
     formState: { errors },
+    reset
   } = useForm<FormFields>({
     resolver: zodResolver(signUpSchema),
+    mode: 'onBlur'
   })
 
-  const onSubmit: SubmitHandler<FormFields> = data => console.log(data)
+  const onSubmit: SubmitHandler<FormFields> = data => {
+    console.log(data)
+    // reset();
+  }
 
   return (
     <>
