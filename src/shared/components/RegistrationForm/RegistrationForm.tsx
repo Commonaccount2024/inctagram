@@ -14,7 +14,7 @@ const signUpSchema = object({
     .max(20, 'Password must be less than 20 characters'),
   confirmPassword: string(),
   agreeToTerms: z.boolean({
-    required_error: 'You must agreed with terms and policy'
+    required_error: 'You must agreed with terms and policy',
   }),
 }).refine(data => data.password === data.confirmPassword, {
   message: 'Passwords must match',
@@ -68,10 +68,12 @@ export function RegistrationForm() {
         <a className={styles.policy}>Privacy Policy</a>
         {errors.agreeToTerms && <span className={styles.error}>{errors.agreeToTerms.message}</span>}
         <br />
-        <button type="submit">Sign Up</button>
+        <button type="submit" >
+          Sign Up
+        </button>
       </form>
       <p>Do you have an account?</p>
-      <Link href='/singIn'>Sign In</Link>
+      <Link href="/singIn">Sign In</Link>
     </>
   )
 }
