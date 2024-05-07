@@ -1,5 +1,6 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
-
+import { toast } from 'react-toastify'
+import { useRegister } from '@/shared/hooks/useRegister'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 import { object, string, z } from 'zod'
@@ -16,7 +17,7 @@ const signUpSchema = object({
     .min(6, 'Minimum number of characters 6')
     .max(20, 'Maximum number of characters 20')
     .regex(
-      /^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[!"#$%&'()*+,\-.\/:;<=>?@[\\\]^_`{|}~])[0-9A-Za-z!"#$%&'()*+,\-.\/:;<=>?@[\\\]^_`{|}~]+$/,
+      /^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~])[0-9A-Za-z!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]+$/,
       `Password must contain 0-9, a-z, A-Z, ! " # $ % & ' ( ) * + , - . / : ; < = > ? @ [ \\ ] ^ _\` { | } ~`
     ),
   username: string()
@@ -28,20 +29,26 @@ const signUpSchema = object({
 })
 
 export function RegistrationForm() {
+  const { data, error, loading, registerUser } = useRegister()
+
   const {
     formState: { errors, isValid },
     handleSubmit,
     register,
-    watch,
     reset,
+    watch,
   } = useForm<FormFields>({
     mode: 'onBlur',
     resolver: zodResolver(signUpSchema),
   })
 
   const agreeToTerms = watch('agreeToTerms')
+  const notify = (userEmail: string) => {
+    toast(`We have sent a link to confirm your email to ${userEmail}`)
+  }
 
   const onSubmit: SubmitHandler<FormFields> = data => {
+    notify(data.email)
     console.log(data)
     // reset();
   }
@@ -70,11 +77,16 @@ export function RegistrationForm() {
         <br />
         <input id={'agreeToTerms'} type={'checkbox'} {...register('agreeToTerms')} />
         <label htmlFor={'agreeToTerms'}>I agree to the </label>
-        <Link href={'/termsOfService'} className={styles.policy}>Terms of Service</Link> and{' '}
-        <Link href={'/privacyPolicy'} className={styles.policy}>Privacy Policy</Link>
+        <Link className={styles.policy} href={'/termsOfService'}>
+          Terms of Service
+        </Link>{' '}
+        and{' '}
+        <Link className={styles.policy} href={'/privacyPolicy'}>
+          Privacy Policy
+        </Link>
         {errors.agreeToTerms && <span className={styles.error}>{errors.agreeToTerms.message}</span>}
         <br />
-        <button type={'submit'} disabled={!isValid || !agreeToTerms}>
+        <button disabled={!isValid || !agreeToTerms} type={'submit'}>
           Sign Up
         </button>
       </form>
@@ -84,4 +96,4 @@ export function RegistrationForm() {
   )
 }
 
-type FormFields = z.infer<typeof signUpSchema>
+export type FormFields = z.infer<typeof signUpSchema>
