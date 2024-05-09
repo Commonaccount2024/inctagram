@@ -1,11 +1,9 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
-import { useRegister } from '@/shared/hooks/useRegister'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 import { object, string, z } from 'zod'
-
-import styles from './RegistrationForm.module.scss'
+import styles from './SignUpForm.module.scss'
 
 const signUpSchema = object({
   agreeToTerms: z.boolean({
@@ -29,8 +27,6 @@ const signUpSchema = object({
 })
 
 export function RegistrationForm() {
-  const { data, error, loading, registerUser } = useRegister()
-
   const {
     formState: { errors, isValid },
     handleSubmit,

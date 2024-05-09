@@ -1,4 +1,4 @@
-import { RegistrationForm } from '@/shared/components/RegistrationForm'
+import { RegistrationForm } from '@/shared/components/SignUpForm'
 import { HeadMeta } from '@/shared/components/headMeta/HeadMeta'
 import { useRouterLocaleDefination } from '@/shared/hooks/useRouterLocaleDefination'
 

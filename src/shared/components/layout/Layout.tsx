@@ -13,16 +13,16 @@ export const Layout: NextPage<PropsWithChildren> = ({ children }) => {
   return (
     <>
       <ToastContainer
-        // autoClose={3000}
         closeOnClick
         draggable={false}
-        hideProgressBar
         limit={3}
         newestOnTop
         pauseOnFocusLoss={false}
         pauseOnHover={false}
         position={'top-center'}
         rtl={false}
+        hideProgressBar
+        // autoClose={3000}
         // theme={'colored'}
       />
       <main className={s.main}>
