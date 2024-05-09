@@ -1,9 +1,12 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
+
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 import { object, string, z } from 'zod'
+
 import styles from './SignUpForm.module.scss'
+import { SendEmailRequestBody, useSendEmailMutation } from '../../../redux/signUp.api'
 
 const signUpSchema = object({
   agreeToTerms: z.boolean({
@@ -37,15 +40,32 @@ export function RegistrationForm() {
     mode: 'onBlur',
     resolver: zodResolver(signUpSchema),
   })
+  const [sendMail, { isError }] = useSendEmailMutation()
 
   const agreeToTerms = watch('agreeToTerms')
   const notify = (userEmail: string) => {
     toast(`We have sent a link to confirm your email to ${userEmail}`)
   }
 
-  const onSubmit: SubmitHandler<FormFields> = data => {
-    notify(data.email)
-    console.log(data)
+  const onSubmit: SubmitHandler<FormFields> = async data => {
+    try {
+    const requestBody: SendEmailRequestBody = {
+      userName: data.username,
+      email: data.email,
+      password: data.password,
+      baseUrl: 'http://localhost:3000'
+    };
+
+    const result = await sendMail(requestBody).unwrap();
+    console.log(result)
+    if (result) {
+      notify(data.email);
+    } else {
+      console.error('Error sending registration email:', result);
+    }
+  } catch(error) {
+    console.error('Unexpected error during registration:', error);
+  }
     // reset();
   }
 

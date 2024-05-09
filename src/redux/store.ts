@@ -1,12 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { signUpApi } from './shared/components/SignUpForm/signUp.api'
 import { setupListeners } from '@reduxjs/toolkit/query'
 
+import { signUpApi } from './signUp.api'
+
 export const store = configureStore({
+  middleware: getDefaultMiddlware => getDefaultMiddlware().concat(signUpApi.middleware),
   reducer: {
     [signUpApi.reducerPath]: signUpApi.reducer,
   },
-  middleware: getDefaultMiddlware => getDefaultMiddlware().concat(signUpApi.middleware),
 })
 
 setupListeners(store.dispatch)

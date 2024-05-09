@@ -8,29 +8,32 @@ import { NextPage } from 'next'
 import 'react-toastify/dist/ReactToastify.css'
 
 import s from '@/shared/components/layout/layout.module.scss'
+import { Provider } from 'react-redux'
+import { store } from '@/redux/store'
+import StoreProvider from '@/redux/StoreProvider'
 
 export const Layout: NextPage<PropsWithChildren> = ({ children }) => {
   return (
-    <>
+    <StoreProvider>
       <ToastContainer
         closeOnClick
         draggable={false}
+        hideProgressBar
         limit={3}
         newestOnTop
         pauseOnFocusLoss={false}
         pauseOnHover={false}
         position={'top-center'}
         rtl={false}
-        hideProgressBar
         // autoClose={3000}
         // theme={'colored'}
       />
-      <main className={s.main}>
-        <LangSelect />
-        <NavBar />
-        {children}
-      </main>
-    </>
+        <main className={s.main}>
+          <LangSelect />
+          <NavBar />
+          {children}
+        </main>
+    </StoreProvider>
   )
 }
 
