@@ -4,7 +4,7 @@ export const signUpApi = createApi({
   reducerPath: 'signUpApi',
   baseQuery: fetchBaseQuery({ baseUrl: `${process.env.NEXT_PUBLIC_INCTAGRAM_API_URL}` }),
   endpoints: builder => ({
-    sendEmail: builder.mutation<string, SendEmailRequestBody>({
+    sendEmail: builder.mutation<any, SendEmailRequestBody>({
       query: body => ({
         method: 'POST',
         url: '/auth/registration',
@@ -13,9 +13,9 @@ export const signUpApi = createApi({
     }),
     sendVerificationLink: builder.mutation<string, void> ({
       query: body => ({
-        body, 
         method: 'POST',
-        url: '/auth/registration-confirmation'
+        url: '/auth/registration-confirmation',
+        body, 
       })
     })
   }),

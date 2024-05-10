@@ -9,8 +9,8 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import s from '@/shared/components/layout/layout.module.scss'
 import { Provider } from 'react-redux'
-import { store } from '@/redux/store'
-import StoreProvider from '@/redux/StoreProvider'
+import { store } from '@/services/store'
+import StoreProvider from '@/services/StoreProvider'
 
 export const Layout: NextPage<PropsWithChildren> = ({ children }) => {
   return (
@@ -28,11 +28,11 @@ export const Layout: NextPage<PropsWithChildren> = ({ children }) => {
         // autoClose={3000}
         // theme={'colored'}
       />
-        <main className={s.main}>
-          <LangSelect />
-          <NavBar />
-          {children}
-        </main>
+      <main className={s.main}>
+        <LangSelect />
+        <NavBar />
+        {children}
+      </main>
     </StoreProvider>
   )
 }

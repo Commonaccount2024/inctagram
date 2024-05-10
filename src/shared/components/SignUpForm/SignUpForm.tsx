@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { object, string, z } from 'zod'
 
 import styles from './SignUpForm.module.scss'
-import { SendEmailRequestBody, useSendEmailMutation } from '../../../redux/signUp.api'
+import { SendEmailRequestBody, useSendEmailMutation } from '../../../services/signUp.api'
 
 const signUpSchema = object({
   agreeToTerms: z.boolean({
@@ -40,32 +40,34 @@ export function RegistrationForm() {
     mode: 'onBlur',
     resolver: zodResolver(signUpSchema),
   })
-  const [sendMail, { isError }] = useSendEmailMutation()
+  const [sendMail, { isError, isLoading }] = useSendEmailMutation()
 
   const agreeToTerms = watch('agreeToTerms')
-  const notify = (userEmail: string) => {
-    toast(`We have sent a link to confirm your email to ${userEmail}`)
+  const notify = {
+    successSendEmail: function (userEmail: string) {
+      toast.success(`We have sent a link to confirm your email to ${userEmail}`)
+    },
   }
 
   const onSubmit: SubmitHandler<FormFields> = async data => {
     try {
-    const requestBody: SendEmailRequestBody = {
-      userName: data.username,
-      email: data.email,
-      password: data.password,
-      baseUrl: 'http://localhost:3000'
-    };
+      const requestBody: SendEmailRequestBody = {
+        userName: data.username,
+        email: data.email,
+        password: data.password,
+        baseUrl: 'http://localhost:3000',
+      }
 
-    const result = await sendMail(requestBody).unwrap();
-    console.log(result)
-    if (result) {
-      notify(data.email);
-    } else {
-      console.error('Error sending registration email:', result);
+      const result = await sendMail(requestBody)
+      notify.successSendEmail(data.email)
+      if (result) {
+        console.log(result)
+      } else {
+        console.error('Error sending registration email:', result)
+      }
+    } catch (error) {
+      console.error('Unexpected error during registration:', error)
     }
-  } catch(error) {
-    console.error('Unexpected error during registration:', error);
-  }
     // reset();
   }
 
@@ -105,6 +107,7 @@ export function RegistrationForm() {
         <button disabled={!isValid || !agreeToTerms} type={'submit'}>
           Sign Up
         </button>
+        {isLoading && <p>Sending data...</p>}
       </form>
       <p>Do you have an account?</p>
       <Link href={'/signIn'}>Sign In</Link>
