@@ -9,7 +9,7 @@ export default function Home() {
     <>
       <HeadMeta title={routerLocale.title} />
       <h1 style={{ marginBottom: 30 }}>{routerLocale.test}</h1>
-      <Button>Hello</Button>
+      <Button variant={'primary'}>Hello</Button>
     </>
   )
 }
