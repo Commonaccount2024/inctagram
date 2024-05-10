@@ -7,9 +7,9 @@ export default function Home() {
 
   return (
     <>
-      <HeadMeta title={routerLocale.test} />
+      <HeadMeta title={routerLocale.title} />
       <h1 style={{ marginBottom: 30 }}>{routerLocale.test}</h1>
-      <Button>Hello</Button>
+      <Button variant={'primary'}>Hello</Button>
     </>
   )
 }
