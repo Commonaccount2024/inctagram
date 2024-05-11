@@ -1,24 +1,16 @@
 import type { AppProps } from 'next/app'
 
-
 import { useEffect } from 'react'
-
-import { Layout } from '@/shared/components/layout/Layout'
-import { Inter } from 'next/font/google'
-
 
 import { Layout } from '@/shared/components/layout/Layout'
 import { paths } from '@/shared/constans/paths'
 import axios from 'axios'
 import * as dotenv from 'dotenv'
+import { Inter } from 'next/font/google'
 import { useRouter } from 'next/router'
 dotenv.config()
 import '@/styles/globals.css'
 import '@commonaccount2024/inctagram-ui-kit/dist/style.css'
-
-import '@fontsource/roboto'
-import '@fontsource-variable/inter'
-
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -41,8 +33,6 @@ export default function App({ Component, pageProps }: AppProps) {
             router.push(`/`)
 
             return
-          } else {
-            router.push(`/singIn`)
           }
         })
         .catch(e => {

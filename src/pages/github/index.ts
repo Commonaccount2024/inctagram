@@ -15,8 +15,6 @@ export default function GithubPage() {
       router.push(`/`)
 
       return
-    } else {
-      router.push(`/singIn`)
     }
   }, [accessToken])
 }
