@@ -1,4 +1,3 @@
-import React, { FC } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { useRouter } from 'next/router'
@@ -10,7 +9,7 @@ interface FormData {
   password: string
 }
 
-const LoginForm: FC<FormData> = () => {
+const LoginForm = () => {
   const {
     formState: { errors },
     handleSubmit,
