@@ -13,7 +13,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@commonaccount2024/inctagram-ui-kit": "^0.0.6",
+    "@commonaccount2024/inctagram-ui-kit": "^0.0.9",
     "@reduxjs/toolkit": "^2.2.3",
     "axios": "^1.6.8",
     "next": "^14.2.3",
