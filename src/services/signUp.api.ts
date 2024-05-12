@@ -11,7 +11,7 @@ export const signUpApi = createApi({
         body
       }),
     }),
-    sendVerificationLink: builder.mutation<string, void> ({
+    sendVerificationCode: builder.mutation<any, SendVerificationCode> ({
       query: body => ({
         method: 'POST',
         url: '/auth/registration-confirmation',
@@ -21,7 +21,7 @@ export const signUpApi = createApi({
   }),
 })
 
-export const { useSendEmailMutation } = signUpApi
+export const { useSendEmailMutation, useSendVerificationCodeMutation } = signUpApi
 
 export type SendEmailRequestBody = {
   userName: string;
@@ -29,3 +29,7 @@ export type SendEmailRequestBody = {
   password: string;
   baseUrl: string;
 };
+
+export type SendVerificationCode = {
+  confirmationCode: string;
+}

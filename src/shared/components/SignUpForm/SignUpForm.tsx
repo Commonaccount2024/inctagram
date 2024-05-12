@@ -1,6 +1,5 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
-
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 import { object, string, z } from 'zod'
@@ -47,6 +46,9 @@ export function RegistrationForm() {
     successSendEmail: function (userEmail: string) {
       toast.success(`We have sent a link to confirm your email to ${userEmail}`)
     },
+    errorRegistrationEmail: function() {
+      toast.error('Error sending registration email')
+    }
   }
 
   const onSubmit: SubmitHandler<FormFields> = async data => {
@@ -55,10 +57,10 @@ export function RegistrationForm() {
         userName: data.username,
         email: data.email,
         password: data.password,
-        baseUrl: 'http://localhost:3000',
+        baseUrl: 'http://localhost:3000'
       }
 
-      const result = await sendMail(requestBody)
+      const result = await sendMail(requestBody).unwrap();
       notify.successSendEmail(data.email)
       if (result) {
         console.log(result)
@@ -68,7 +70,7 @@ export function RegistrationForm() {
     } catch (error) {
       console.error('Unexpected error during registration:', error)
     }
-    // reset();
+    reset();
   }
 
   return (
