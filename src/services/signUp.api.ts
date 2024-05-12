@@ -8,28 +8,37 @@ export const signUpApi = createApi({
       query: body => ({
         method: 'POST',
         url: '/auth/registration',
-        body
+        body,
       }),
     }),
-    sendVerificationCode: builder.mutation<any, SendVerificationCode> ({
+    sendVerificationCode: builder.mutation<any, SendVerificationCode>({
       query: body => ({
         method: 'POST',
         url: '/auth/registration-confirmation',
-        body, 
+        body,
+      }),
+    }),
+    resendVerificationCode: builder.mutation<any, ResendEmailRequestBody>({
+      query: body => ({
+        method: 'POST',
+        url: '/auth/registration-email-resending',
+        body
       })
     })
   }),
 })
 
-export const { useSendEmailMutation, useSendVerificationCodeMutation } = signUpApi
+export const { useSendEmailMutation, useSendVerificationCodeMutation, useResendVerificationCodeMutation } = signUpApi
 
 export type SendEmailRequestBody = {
-  userName: string;
-  email: string;
-  password: string;
-  baseUrl: string;
-};
+  userName: string
+  email: string
+  password: string
+  baseUrl: string
+}
+
+export type ResendEmailRequestBody = Pick<SendEmailRequestBody, 'email' | 'baseUrl' >
 
 export type SendVerificationCode = {
-  confirmationCode: string;
+  confirmationCode: string
 }

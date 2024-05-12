@@ -6,6 +6,7 @@ import { object, string, z } from 'zod'
 
 import styles from './SignUpForm.module.scss'
 import { SendEmailRequestBody, useSendEmailMutation } from '../../../services/signUp.api'
+import { useErrorAuthHandle } from '@/shared/hooks/useErrorAuthHandle'
 
 const signUpSchema = object({
   agreeToTerms: z.boolean({
@@ -39,38 +40,35 @@ export function RegistrationForm() {
     mode: 'onBlur',
     resolver: zodResolver(signUpSchema),
   })
-  const [sendMail, { isError, isLoading }] = useSendEmailMutation()
+  const [sendMail, { isLoading}] = useSendEmailMutation()
 
   const agreeToTerms = watch('agreeToTerms')
   const notify = {
     successSendEmail: function (userEmail: string) {
       toast.success(`We have sent a link to confirm your email to ${userEmail}`)
     },
-    errorRegistrationEmail: function() {
-      toast.error('Error sending registration email')
-    }
+    errorRegistrationEmail: function (err: unknown) {
+      toast.error(`Unexpected error during registration: ${err}`)
+    },
   }
 
   const onSubmit: SubmitHandler<FormFields> = async data => {
     try {
-      const requestBody: SendEmailRequestBody = {
-        userName: data.username,
-        email: data.email,
-        password: data.password,
-        baseUrl: 'http://localhost:3000'
-      }
-
-      const result = await sendMail(requestBody).unwrap();
-      notify.successSendEmail(data.email)
-      if (result) {
-        console.log(result)
-      } else {
-        console.error('Error sending registration email:', result)
-      }
-    } catch (error) {
-      console.error('Unexpected error during registration:', error)
+    const requestBody: SendEmailRequestBody = {
+      userName: data.username,
+      email: data.email,
+      password: data.password,
+      baseUrl: `${process.env.NEXT_PUBLIC_BASE_URL}`,
     }
-    reset();
+      await sendMail(requestBody).unwrap()
+      notify.successSendEmail(data.email)
+    } catch(err){
+      const errorData = useErrorAuthHandle(err)
+      notify.errorRegistrationEmail(errorData.error)
+      notify.errorRegistrationEmail(errorData.errorMessage)
+    } finally {
+      reset()
+    }
   }
 
   return (
@@ -116,5 +114,6 @@ export function RegistrationForm() {
     </>
   )
 }
+
 
 export type FormFields = z.infer<typeof signUpSchema>

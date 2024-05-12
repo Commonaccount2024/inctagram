@@ -13,8 +13,8 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@hookform/resolvers": "^3.3.4",
     "@commonaccount2024/inctagram-ui-kit": "^0.0.6",
+    "@hookform/resolvers": "^3.3.4",
     "@reduxjs/toolkit": "^2.2.3",
     "axios": "^1.6.8",
     "next": "^14.2.3",
