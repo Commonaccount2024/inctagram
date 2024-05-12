@@ -1,14 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { setupListeners } from '@reduxjs/toolkit/query'
 
-import { loginApi } from './shared/components/LoginForm/login.api'
+import { baseApi } from './shared/api/baseApi'
 
 export const store = configureStore({
-  middleware: getDefaultMiddleware => {
-    return getDefaultMiddleware().concat(loginApi.middleware)
-  },
+  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(baseApi.middleware),
   reducer: {
-    [loginApi.reducerPath]: loginApi.reducer,
+    [baseApi.reducerPath]: baseApi.reducer,
   },
 })
-setupListeners(store.dispatch)
+export type AppDispatch = typeof store.dispatch
+export type RootState = ReturnType<typeof store.getState>
