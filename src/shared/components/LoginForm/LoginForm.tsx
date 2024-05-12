@@ -1,8 +1,7 @@
 import { useForm } from 'react-hook-form'
 
+import { useLoginMutation } from '@/feature/auth/api/authApi'
 import { useRouter } from 'next/router'
-
-import { useLoginMutation } from './login.api'
 
 interface FormData {
   email: string
