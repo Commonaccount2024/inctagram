@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { useLoginMutation } from '@/feature/auth/api/authApi'
@@ -18,14 +19,14 @@ const LoginForm = () => {
   const router = useRouter()
 
   const [loginUser, { isError: loginError }] = useLoginMutation()
-
+  const [error, setError] = useState<null | string>(null)
   const onSubmit = async (data: FormData) => {
     try {
       await loginUser(data).unwrap()
 
       router.push('/create-account')
     } catch (error) {
-      throw new Error('Login error:')
+      setError('Произошла ошибка. Пожалуйста попробуйте еще раз')
     }
   }
 
@@ -52,7 +53,7 @@ const LoginForm = () => {
           {errors.password && <span>Password is required</span>}
         </div>
         <button type={'submit'}>Sign In</button>
-        {loginError && <div>Error: The email or password are incorrect. Try again please</div>}
+        {error && <div>{error}</div>}
       </form>
     </div>
   )
