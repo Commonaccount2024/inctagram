@@ -25,7 +25,7 @@ const LoginForm = () => {
 
       router.push('/create-account')
     } catch (error) {
-      console.error('Login error:', error)
+      throw new Error('Login error:')
     }
   }
 
