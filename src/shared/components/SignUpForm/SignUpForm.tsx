@@ -80,6 +80,8 @@ export function RegistrationForm() {
   return (
     <>
       <h1 className={styles.title}>Sign Up</h1>
+      <Link href={'https://www.google.com'} target='_blank' rel="noopener noreferrer">Google</Link>
+      <Link href={'https://www.github.com'}  target='_blank' rel="noopener noreferrer">GitHub</Link>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor={'username'}>UserName</label>
         <input
