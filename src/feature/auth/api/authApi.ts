@@ -7,7 +7,7 @@ export const authApi = baseApi.injectEndpoints({
       query: body => ({
         body,
         method: 'POST',
-        url: 'v1/auth/login',
+        url: '/v1/auth/login',
       }),
     }),
   }),
