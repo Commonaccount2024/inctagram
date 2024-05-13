@@ -1,13 +1,9 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
+import { LoginParams } from '@/feature/auth/api/auth.types'
 import { useLoginMutation } from '@/feature/auth/api/authApi'
 import { useRouter } from 'next/router'
-
-interface FormData {
-  email: string
-  password: string
-}
 
 const LoginForm = () => {
   const {
@@ -15,12 +11,12 @@ const LoginForm = () => {
     handleSubmit,
     register,
     trigger,
-  } = useForm<FormData>()
+  } = useForm<LoginParams>()
   const router = useRouter()
 
   const [loginUser, { isError: loginError }] = useLoginMutation()
   const [error, setError] = useState<null | string>(null)
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: LoginParams) => {
     try {
       await loginUser(data).unwrap()
 
@@ -30,7 +26,7 @@ const LoginForm = () => {
     }
   }
 
-  const handleBlur = (fieldName: keyof FormData) => {
+  const handleBlur = (fieldName: keyof LoginParams) => {
     trigger(fieldName)
   }
 
