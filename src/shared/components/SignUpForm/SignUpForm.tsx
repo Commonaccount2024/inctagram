@@ -7,13 +7,15 @@ import { object, string, z } from 'zod'
 import styles from './SignUpForm.module.scss'
 import { SendEmailRequestBody, useSendEmailMutation } from '../../../services/signUp.api'
 import { useErrorAuthHandle } from '@/shared/hooks/useErrorAuthHandle'
+import { useState } from 'react'
 
 const signUpSchema = object({
   agreeToTerms: z.boolean({
     required_error: 'You must agreed with terms and policy',
   }),
-  confirmPassword: string(),
-  email: string().email('The email must match the format example@example.com'),
+  confirmPassword: string().min(1, 'Please confirm your password'),
+  email: string()
+    .email('The email must match the format example@example.com'),
   password: string()
     .min(6, 'Minimum number of characters 6')
     .max(20, 'Maximum number of characters 20')
@@ -29,7 +31,18 @@ const signUpSchema = object({
   path: ['confirmPassword'],
 })
 
+const notify = {
+  successSendEmail: function (userEmail: string) {
+    toast.success(`We have sent a link to confirm your email to ${userEmail}`)
+  },
+  errorRegistrationEmail: function (err: unknown) {
+    toast.error(`Unexpected error during registration: ${err}`)
+  },
+}
+
 export function RegistrationForm() {
+  const [ifExists, setIfExists] = useState('')
+
   const {
     formState: { errors, isValid },
     handleSubmit,
@@ -40,34 +53,27 @@ export function RegistrationForm() {
     mode: 'onBlur',
     resolver: zodResolver(signUpSchema),
   })
-  const [sendMail, { isLoading}] = useSendEmailMutation()
-
+  const [sendMail, { isLoading }] = useSendEmailMutation()
   const agreeToTerms = watch('agreeToTerms')
-  const notify = {
-    successSendEmail: function (userEmail: string) {
-      toast.success(`We have sent a link to confirm your email to ${userEmail}`)
-    },
-    errorRegistrationEmail: function (err: unknown) {
-      toast.error(`Unexpected error during registration: ${err}`)
-    },
-  }
 
   const onSubmit: SubmitHandler<FormFields> = async data => {
+    setIfExists('')
     try {
-    const requestBody: SendEmailRequestBody = {
-      userName: data.username,
-      email: data.email,
-      password: data.password,
-      baseUrl: `${process.env.NEXT_PUBLIC_BASE_URL}`,
-    }
+      const requestBody: SendEmailRequestBody = {
+        userName: data.username,
+        email: data.email,
+        password: data.password,
+        baseUrl: `${process.env.NEXT_PUBLIC_BASE_URL}`,
+      }
       await sendMail(requestBody).unwrap()
-      notify.successSendEmail(data.email)
-    } catch(err){
-      const errorData = useErrorAuthHandle(err)
-      notify.errorRegistrationEmail(errorData.error)
-      notify.errorRegistrationEmail(errorData.errorMessage)
-    } finally {
       reset()
+      notify.successSendEmail(data.email)
+    } catch (err) {
+      const errorData = useErrorAuthHandle(err)
+      notify.errorRegistrationEmail(errorData.errorMessage)
+      if (errorData.statusCode === 400) {
+        setIfExists(errorData.field)
+      }
     }
   }
 
@@ -76,12 +82,23 @@ export function RegistrationForm() {
       <h1 className={styles.title}>Sign Up</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor={'username'}>UserName</label>
-        <input id={'username'} {...register('username')} type={'text'} />
+        <input
+          id={'username'}
+          {...register('username')}
+          type={'text'}
+          onChange={() => setIfExists('')}
+        />
         {errors.username && <span className={styles.error}>{errors.username.message}</span>}
+        {ifExists === 'userName' && !errors.username && (
+          <span className={styles.error}>User with this username is already registered</span>
+        )}
         <br />
         <label htmlFor={'email'}>Email</label>
-        <input id={'email'} {...register('email')} type={'text'} />
+        <input id={'email'} {...register('email')} type={'text'} onChange={() => setIfExists('')} />
         {errors.email && <span className={styles.error}>{errors.email.message}</span>}
+        {ifExists === 'email' && !errors.email && (
+          <span className={styles.error}>User with this email is already registered</span>
+        )}
         <br />
         <label htmlFor={'password'}>Password</label>
         <input id={'password'} {...register('password')} type={'password'} />
@@ -114,6 +131,5 @@ export function RegistrationForm() {
     </>
   )
 }
-
 
 export type FormFields = z.infer<typeof signUpSchema>
