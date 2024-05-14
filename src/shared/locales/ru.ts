@@ -8,10 +8,10 @@ export const ru = {
   passwordRecoveryPage: {
     title: 'Восстановления пароля',
   },
-  singInPage: {
+  signInPage: {
     title: 'Авторизация',
   },
-  singUpPage: {
+  signUpPage: {
     title: 'Регистрация',
   },
   test: 'Главная страница',
