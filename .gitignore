@@ -40,5 +40,5 @@ next-env.d.ts
 
 /.idea
 /storybook-static
-.env
+.env.local
 *storybook.log
