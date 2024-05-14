@@ -1,4 +1,4 @@
-import { OAuth } from '@/features/oAuth/oAuth'
+import LoginForm from '@/shared/components/LoginForm/LoginForm'
 import { HeadMeta } from '@/shared/components/headMeta/HeadMeta'
 import { useRouterLocaleDefination } from '@/shared/hooks/useRouterLocaleDefination'
 
@@ -9,7 +9,7 @@ export default function SingIn() {
     <>
       <HeadMeta title={routerLocale.singInPage.title} />
       <h1>{routerLocale.singInPage.title}</h1>
-      <OAuth />
+      <LoginForm />
     </>
   )
 }
