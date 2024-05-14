@@ -1,47 +1,47 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const signUpApi = createApi({
-  reducerPath: 'signUpApi',
   baseQuery: fetchBaseQuery({ baseUrl: `${process.env.NEXT_PUBLIC_INCTAGRAM_API_URL}` }),
   endpoints: builder => ({
+    resendVerificationCode: builder.mutation<any, ResendEmailRequestBody>({
+      query: body => ({
+        body,
+        method: 'POST',
+        url: 'v1/auth/registration-email-resending',
+      }),
+    }),
     sendEmail: builder.mutation<any, SendEmailRequestBody>({
       query: body => ({
+        body,
         method: 'POST',
         url: 'v1/auth/registration',
-        body,
       }),
     }),
     sendVerificationCode: builder.mutation<any, SendVerificationCode>({
       query: body => ({
+        body,
         method: 'POST',
         url: 'v1/auth/registration-confirmation',
-        body,
-      }),
-    }),
-    resendVerificationCode: builder.mutation<any, ResendEmailRequestBody>({
-      query: body => ({
-        method: 'POST',
-        url: 'v1/auth/registration-email-resending',
-        body,
       }),
     }),
   }),
+  reducerPath: 'signUpApi',
 })
 
 export const {
+  useResendVerificationCodeMutation,
   useSendEmailMutation,
   useSendVerificationCodeMutation,
-  useResendVerificationCodeMutation,
 } = signUpApi
 
 export type SendEmailRequestBody = {
-  userName: string
+  baseUrl: string
   email: string
   password: string
-  baseUrl: string
+  userName: string
 }
 
-export type ResendEmailRequestBody = Pick<SendEmailRequestBody, 'email' | 'baseUrl'>
+export type ResendEmailRequestBody = Pick<SendEmailRequestBody, 'baseUrl' | 'email'>
 
 export type SendVerificationCode = {
   confirmationCode: string

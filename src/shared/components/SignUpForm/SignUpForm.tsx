@@ -1,46 +1,31 @@
+import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
-import { zodResolver } from '@hookform/resolvers/zod'
-import Link from 'next/link'
 import { object, string, z } from 'zod'
 
-import styles from './SignUpForm.module.scss'
-import { SendEmailRequestBody, useSendEmailMutation } from '../../../services/signUp.api'
-import { useErrorAuthHandle } from '@/shared/hooks/useErrorAuthHandle'
-import { useState } from 'react'
 
-const signUpSchema = object({
-  agreeToTerms: z.boolean({
-    required_error: 'You must agreed with terms and policy',
-  }),
-  confirmPassword: string().min(1, 'Please confirm your password'),
-  email: string()
-    .email('The email must match the format example@example.com'),
-  password: string()
-    .min(6, 'Minimum number of characters 6')
-    .max(20, 'Maximum number of characters 20')
-    .regex(
-      /^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~])[0-9A-Za-z!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]+$/,
-      `Password must contain 0-9, a-z, A-Z, ! " # $ % & ' ( ) * + , - . / : ; < = > ? @ [ \\ ] ^ _\` { | } ~`
-    ),
-  username: string()
-    .min(6, 'Minimum number of characters 6')
-    .max(30, 'Maximum number of characters 30'),
-}).refine(data => data.password === data.confirmPassword, {
-  message: 'Passwords must match',
-  path: ['confirmPassword'],
-})
+import { useAuthHandleError } from '@/shared/hooks/useAuthHandleError'
+import { zodResolver } from '@hookform/resolvers/zod'
+import Link from 'next/link'
+
+import styles from './SignUpForm.module.scss'
+
+import { SendEmailRequestBody, useSendEmailMutation } from '../../../services/signUp.api'
+import { signUpSchema } from './signUpSchema'
+
+
 
 const notify = {
-  successSendEmail: function (userEmail: string) {
-    toast.success(`We have sent a link to confirm your email to ${userEmail}`)
-  },
   errorRegistrationEmail: function (err: unknown) {
     toast.error(`Unexpected error during registration: ${err}`)
+  },
+  successSendEmail: function (userEmail: string) {
+    toast.success(`We have sent a link to confirm your email to ${userEmail}`)
   },
 }
 
 export function RegistrationForm() {
+  const handleError = useAuthHandleError()
   const [ifExists, setIfExists] = useState('')
 
   const {
@@ -50,8 +35,14 @@ export function RegistrationForm() {
     reset,
     watch,
   } = useForm<FormFields>({
-    mode: 'onBlur',
+    mode: 'onTouched',
     resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword:'',
+    }
   })
   const [sendMail, { isLoading }] = useSendEmailMutation()
   const agreeToTerms = watch('agreeToTerms')
@@ -60,45 +51,60 @@ export function RegistrationForm() {
     setIfExists('')
     try {
       const requestBody: SendEmailRequestBody = {
-        userName: data.username,
+        baseUrl: `${process.env.NEXT_PUBLIC_BASE_URL}`,
         email: data.email,
         password: data.password,
-        baseUrl: `${process.env.NEXT_PUBLIC_BASE_URL}`,
+        userName: data.username,
       }
+
       await sendMail(requestBody).unwrap()
       reset()
       notify.successSendEmail(data.email)
     } catch (err) {
-      const errorData = useErrorAuthHandle(err)
-      notify.errorRegistrationEmail(errorData.errorMessage)
+      const errorData = handleError(err)
+
       if (errorData.statusCode === 400) {
+        notify.errorRegistrationEmail(errorData.errorMessage)
         setIfExists(errorData.field)
       }
+
+      if(errorData.statusCode === 500) {
+        notify.errorRegistrationEmail('This username is already exists')
+        setIfExists('userName')
+      }
+
+      if(errorData.statusCode === 429) {
+        notify.errorRegistrationEmail('More than 5 attempts from one IP-address during 10 seconds')
+      }
     }
-  }
+  } 
 
   return (
     <>
       <h1 className={styles.title}>Sign Up</h1>
-      <Link href={'https://www.google.com'} target='_blank' rel="noopener noreferrer">Google</Link>
-      <Link href={'https://www.github.com'}  target='_blank' rel="noopener noreferrer">GitHub</Link>
+      <Link href={'https://www.google.com'} rel={'noopener noreferrer'} target={'_blank'}>
+        Google
+      </Link>
+      <Link href={'https://www.github.com'} rel={'noopener noreferrer'} target={'_blank'}>
+        GitHub
+      </Link>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor={'username'}>UserName</label>
         <input
           id={'username'}
           {...register('username')}
+          onInput={() => setIfExists('')}
           type={'text'}
-          onChange={() => setIfExists('')}
         />
         {errors.username && <span className={styles.error}>{errors.username.message}</span>}
-        {ifExists === 'userName' && !errors.username && (
+        {ifExists === 'userName' && !errors.username &&  (
           <span className={styles.error}>User with this username is already registered</span>
         )}
         <br />
         <label htmlFor={'email'}>Email</label>
-        <input id={'email'} {...register('email')} type={'text'} onChange={() => setIfExists('')} />
+        <input id={'email'} {...register('email')} onInput={() => setIfExists('')} type={'text'} />
         {errors.email && <span className={styles.error}>{errors.email.message}</span>}
-        {ifExists === 'email' && !errors.email && (
+        {ifExists === 'email' && !errors.email &&   (
           <span className={styles.error}>User with this email is already registered</span>
         )}
         <br />

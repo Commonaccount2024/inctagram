@@ -1,16 +1,18 @@
+import React, { useEffect } from 'react'
+import { toast } from 'react-toastify'
+
 import {
   ResendEmailRequestBody,
   SendVerificationCode,
   useResendVerificationCodeMutation,
   useSendVerificationCodeMutation,
 } from '@/services/signUp.api'
-import { useErrorAuthHandle } from '@/shared/hooks/useErrorAuthHandle'
+import { useAuthHandleError } from '@/shared/hooks/useAuthHandleError'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React, { useEffect } from 'react'
-import { toast } from 'react-toastify'
 
 export default function RegistrationConfirmation() {
+  const errorAuthHandle = useAuthHandleError()
   const [sendCode, { isError }] = useSendVerificationCodeMutation()
   const [resendCode, { isLoading }] = useResendVerificationCodeMutation()
   const router = useRouter()
@@ -23,10 +25,12 @@ export default function RegistrationConfirmation() {
       const requestBody: SendVerificationCode = {
         confirmationCode: verificationCode,
       }
+
       sendCode(requestBody)
         .unwrap()
         .catch(error => {
-          const errorData = useErrorAuthHandle(error)
+          const errorData = errorAuthHandle(error)
+
           toast.error(errorData.errorMessage)
         })
     }
@@ -36,15 +40,16 @@ export default function RegistrationConfirmation() {
     try {
       if (mailForResend) {
         const requestBody: ResendEmailRequestBody = {
-          email: mailForResend,
           baseUrl: `${process.env.NEXT_PUBLIC_BASE_URL}`,
+          email: mailForResend,
         }
+
         await resendCode(requestBody).unwrap()
         toast.success(`Please check your email`)
       }
     } catch (err) {
-      const errorData = useErrorAuthHandle(err)
-      toast.error(errorData.error)
+      const errorData = errorAuthHandle(err)
+
       toast.error(errorData.errorMessage)
     }
   }
@@ -57,7 +62,7 @@ export default function RegistrationConfirmation() {
             Looks like the verification link has expired. Not to worry, we can send the link again
           </p>
           <br />
-          <button type="button" onClick={handleClick}>
+          <button onClick={handleClick} type={'button'}>
             Resend verification link
           </button>
           {isLoading && <p>sending data...</p>}
@@ -68,8 +73,8 @@ export default function RegistrationConfirmation() {
           <br />
           <p>Your email has been confirmed</p>
           <br />
-          <button type="button">
-            <Link href="/signIn">Sign In</Link>
+          <button type={'button'}>
+            <Link href={'/signIn'}>Sign In</Link>
           </button>
         </>
       )}
