@@ -1,15 +1,15 @@
-import { OAuth } from '@/features/oAuth/oAuth'
+import LoginForm from '@/shared/components/LoginForm/LoginForm'
 import { HeadMeta } from '@/shared/components/headMeta/HeadMeta'
 import { useRouterLocaleDefination } from '@/shared/hooks/useRouterLocaleDefination'
 
-export default function SingUp() {
+export default function SignIn() {
   const routerLocale = useRouterLocaleDefination()
 
   return (
     <>
-      <HeadMeta title={routerLocale.singUpPage.title} />
-      <h1>{routerLocale.singUpPage.title}</h1>
-      <OAuth />
+      <HeadMeta title={routerLocale.signInPage.title} />
+      <h1>{routerLocale.signInPage.title}</h1>
+      <LoginForm />
     </>
   )
 }
