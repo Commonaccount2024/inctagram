@@ -11,7 +11,7 @@ export const NavBar = () => {
       <Link href={'/'}>{routerLocale.test}</Link>
       <Link href={'/singUp'}>{routerLocale.singUpPage.title}</Link>
       <Link href={'/singIn'}>{routerLocale.singInPage.title}</Link>
-      <Link href={'/passwordRecovery'}>{routerLocale.passwordRecoveryPage.title}</Link>
+      <Link href={'/password-recovery'}>{routerLocale.passwordRecoveryPage.title}</Link>
       <Link href={'/forgotPassword'}>{routerLocale.forgotPasswordPage.title}</Link>
       <Link href={'/createNewPassword'}>{routerLocale.createNewPasswordPage.title}</Link>
     </div>

@@ -1,3 +1,4 @@
+import { CreatePassword } from '@/pages/auth/recovery'
 import { HeadMeta } from '@/shared/components/headMeta/HeadMeta'
 import { useRouterLocaleDefination } from '@/shared/hooks/useRouterLocaleDefination'
 
@@ -8,6 +9,7 @@ export default function CreateNewPassword() {
     <>
       <HeadMeta title={routerLocale.createNewPasswordPage.title} />
       <h1>{routerLocale.createNewPasswordPage.title}</h1>
+      <CreatePassword />
     </>
   )
 }
