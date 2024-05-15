@@ -1,10 +1,11 @@
-type ErrorDataType = {
-  error: string
+import { ResponseErrorDataType } from '@/feature/auth/api/auth.types'
+
+type ErrorMessageAndField = {
   errorMessage: string
   field: string
-  messages: { field: string; message: string }[]
-  statusCode: number
 }
+
+type ErrorDataType = ErrorMessageAndField & ResponseErrorDataType
 
 export function useAuthHandleError() {
   return (error: any) => {

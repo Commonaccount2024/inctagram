@@ -1,20 +1,21 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
+import { ResendEmailRequestBody, SendVerificationCode } from '@/feature/auth/api/auth.types'
 import {
-  ResendEmailRequestBody,
-  SendVerificationCode,
   useResendVerificationCodeMutation,
   useSendVerificationCodeMutation,
-} from '@/services/signUp.api'
+} from '@/feature/auth/api/authApi'
+import { HeadMeta } from '@/shared/components/headMeta/HeadMeta'
 import { useAuthHandleError } from '@/shared/hooks/useAuthHandleError'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 export default function RegistrationConfirmation() {
+  const [verificationError, setVerificationError] = useState(true)
   const errorAuthHandle = useAuthHandleError()
-  const [sendCode, { isError }] = useSendVerificationCodeMutation()
-  const [resendCode, { isLoading }] = useResendVerificationCodeMutation()
+  const [sendCode, { isError: isSendError }] = useSendVerificationCodeMutation()
+  const [resendCode, { isLoading: isResending }] = useResendVerificationCodeMutation()
   const router = useRouter()
   const { code, email } = router.query
   const verificationCode = Array.isArray(code) ? code[0] : code
@@ -28,13 +29,17 @@ export default function RegistrationConfirmation() {
 
       sendCode(requestBody)
         .unwrap()
+        .then(() => setVerificationError(true))
         .catch(error => {
           const errorData = errorAuthHandle(error)
 
           toast.error(errorData.errorMessage)
         })
+        .finally(() => {
+          setVerificationError(false)
+        })
     }
-  }, [verificationCode])
+  })
 
   const handleClick = async () => {
     try {
@@ -56,8 +61,9 @@ export default function RegistrationConfirmation() {
 
   return (
     <>
-      {isError ? (
+      {verificationError || isSendError ? (
         <>
+          <HeadMeta title={'registration-confirmation'} />
           <p>
             Looks like the verification link has expired. Not to worry, we can send the link again
           </p>
@@ -65,7 +71,7 @@ export default function RegistrationConfirmation() {
           <button onClick={handleClick} type={'button'}>
             Resend verification link
           </button>
-          {isLoading && <p>sending data...</p>}
+          {isResending && <p>sending data...</p>}
         </>
       ) : (
         <>
@@ -73,9 +79,7 @@ export default function RegistrationConfirmation() {
           <br />
           <p>Your email has been confirmed</p>
           <br />
-          <button type={'button'}>
-            <Link href={'/signIn'}>Sign In</Link>
-          </button>
+          <Link href={'/signIn'}>Sign In</Link>
         </>
       )}
     </>

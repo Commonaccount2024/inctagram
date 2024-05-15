@@ -1,19 +1,18 @@
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
-import { object, string, z } from 'zod'
 
-
+import { SendEmailRequestBody } from '@/feature/auth/api/auth.types'
+import { useSendEmailMutation } from '@/feature/auth/api/authApi'
 import { useAuthHandleError } from '@/shared/hooks/useAuthHandleError'
+import { useRouterLocaleDefination } from '@/shared/hooks/useRouterLocaleDefination'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
+import { z } from 'zod'
 
 import styles from './SignUpForm.module.scss'
 
-import { SendEmailRequestBody, useSendEmailMutation } from '../../../services/signUp.api'
 import { signUpSchema } from './signUpSchema'
-
-
 
 const notify = {
   errorRegistrationEmail: function (err: unknown) {
@@ -25,6 +24,7 @@ const notify = {
 }
 
 export function RegistrationForm() {
+  const routerLocale = useRouterLocaleDefination()
   const handleError = useAuthHandleError()
   const [ifExists, setIfExists] = useState('')
 
@@ -35,14 +35,14 @@ export function RegistrationForm() {
     reset,
     watch,
   } = useForm<FormFields>({
-    mode: 'onTouched',
-    resolver: zodResolver(signUpSchema),
     defaultValues: {
-      username: '',
+      confirmPassword: '',
       email: '',
       password: '',
-      confirmPassword:'',
-    }
+      username: '',
+    },
+    mode: 'onTouched',
+    resolver: zodResolver(signUpSchema),
   })
   const [sendMail, { isLoading }] = useSendEmailMutation()
   const agreeToTerms = watch('agreeToTerms')
@@ -68,20 +68,20 @@ export function RegistrationForm() {
         setIfExists(errorData.field)
       }
 
-      if(errorData.statusCode === 500) {
+      if (errorData.statusCode === 500) {
         notify.errorRegistrationEmail('This username is already exists')
         setIfExists('userName')
       }
 
-      if(errorData.statusCode === 429) {
+      if (errorData.statusCode === 429) {
         notify.errorRegistrationEmail('More than 5 attempts from one IP-address during 10 seconds')
       }
     }
-  } 
+  }
 
   return (
     <>
-      <h1 className={styles.title}>Sign Up</h1>
+      <h1 className={styles.title}>{routerLocale.signUpPage.title}</h1>
       <Link href={'https://www.google.com'} rel={'noopener noreferrer'} target={'_blank'}>
         Google
       </Link>
@@ -97,14 +97,14 @@ export function RegistrationForm() {
           type={'text'}
         />
         {errors.username && <span className={styles.error}>{errors.username.message}</span>}
-        {ifExists === 'userName' && !errors.username &&  (
+        {ifExists === 'userName' && !errors.username && (
           <span className={styles.error}>User with this username is already registered</span>
         )}
         <br />
         <label htmlFor={'email'}>Email</label>
         <input id={'email'} {...register('email')} onInput={() => setIfExists('')} type={'text'} />
         {errors.email && <span className={styles.error}>{errors.email.message}</span>}
-        {ifExists === 'email' && !errors.email &&   (
+        {ifExists === 'email' && !errors.email && (
           <span className={styles.error}>User with this email is already registered</span>
         )}
         <br />

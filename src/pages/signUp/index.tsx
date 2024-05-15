@@ -2,12 +2,12 @@ import { RegistrationForm } from '@/shared/components/SignUpForm'
 import { HeadMeta } from '@/shared/components/headMeta/HeadMeta'
 import { useRouterLocaleDefination } from '@/shared/hooks/useRouterLocaleDefination'
 
-export default function SingUp() {
+export default function SignUp() {
   const routerLocale = useRouterLocaleDefination()
 
   return (
     <>
-      <HeadMeta title={routerLocale.singUpPage.title} />
+      <HeadMeta title={routerLocale.signUpPage.title} />
       <RegistrationForm />
     </>
   )
