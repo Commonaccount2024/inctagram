@@ -8,11 +8,10 @@ import { useAuthHandleError } from '@/shared/hooks/useAuthHandleError'
 import { useRouterLocaleDefination } from '@/shared/hooks/useRouterLocaleDefination'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
-import { z } from 'zod'
 
 import styles from './SignUpForm.module.scss'
 
-import { signUpSchema } from './signUpSchema'
+import { signUpSchema, FormFields } from './signUpSchema'
 
 const notify = {
   errorRegistrationEmail: function (err: unknown) {
@@ -66,11 +65,6 @@ export function RegistrationForm() {
       if (errorData.statusCode === 400) {
         notify.errorRegistrationEmail(errorData.errorMessage)
         setIfExists(errorData.field)
-      }
-
-      if (errorData.statusCode === 500) {
-        notify.errorRegistrationEmail('This username is already exists')
-        setIfExists('userName')
       }
 
       if (errorData.statusCode === 429) {
@@ -139,5 +133,3 @@ export function RegistrationForm() {
     </>
   )
 }
-
-export type FormFields = z.infer<typeof signUpSchema>
