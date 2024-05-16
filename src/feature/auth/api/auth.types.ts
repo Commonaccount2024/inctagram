@@ -1,4 +1,4 @@
-import { Nullable } from './../../../shared/types/index'
+
 export type LoginParams = {
   email: string
   password: string
@@ -21,7 +21,7 @@ export type ResponseErrorDataType = {
   statusCode: number
 }
 
-export type ResponseSuccessCase = Nullable<ResponseErrorDataType>
+export type ResponseSuccessCase = ResponseErrorDataType | void;
 
 export type SendVerificationCode = {
   confirmationCode: string
