@@ -41,7 +41,7 @@ export default function RegistrationConfirmation() {
     }
   },[verificationCode])
 
-  const handleClick = async () => {
+  const onResendCode = async () => {
     try {
       if (mailForResend) {
         const requestBody: ResendEmailRequestBody = {
@@ -68,7 +68,7 @@ export default function RegistrationConfirmation() {
             Looks like the verification link has expired. Not to worry, we can send the link again
           </p>
           <br />
-          <button onClick={handleClick} type={'button'}>
+          <button onClick={onResendCode} type={'button'}>
             Resend verification link
           </button>
           {isResending && <p>sending data...</p>}
