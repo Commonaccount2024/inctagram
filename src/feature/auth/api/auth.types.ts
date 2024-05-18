@@ -1,4 +1,3 @@
-
 export type LoginParams = {
   email: string
   password: string
@@ -21,7 +20,7 @@ export type ResponseErrorDataType = {
   statusCode: number
 }
 
-export type ResponseSuccessCase = ResponseErrorDataType | void;
+export type ResponseSuccessCase = ResponseErrorDataType | void
 
 export type SendVerificationCode = {
   confirmationCode: string
