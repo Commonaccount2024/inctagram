@@ -11,7 +11,7 @@ import Link from 'next/link'
 
 import styles from './SignUpForm.module.scss'
 
-import { signUpSchema, FormFields } from './signUpSchema'
+import { FormFields, signUpSchema } from './signUpSchema'
 
 const notify = {
   errorRegistrationEmail: function (err: unknown) {
