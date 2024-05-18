@@ -1,4 +1,3 @@
-
 export type LoginParams = {
   email: string
   password: string
@@ -15,13 +14,11 @@ export type SendEmailRequestBody = {
   userName: string
 }
 
-export type ResponseErrorDataType = {
+export type ErrorResponse = {
   error: string
   messages: { field: string; message: string }[]
   statusCode: number
 }
-
-export type ResponseSuccessCase = ResponseErrorDataType | void;
 
 export type SendVerificationCode = {
   confirmationCode: string

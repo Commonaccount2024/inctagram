@@ -1,10 +1,10 @@
 import { baseApi } from '@/shared/api/baseApi'
+import { apiErrorsAdapter } from '@/shared/utils/api-errors-adapter'
 
 import {
   LoginParams,
   LoginResponse,
   ResendEmailRequestBody,
-  ResponseSuccessCase,
   SendEmailRequestBody,
   SendVerificationCode,
 } from './auth.types'
@@ -19,21 +19,24 @@ export const authApi = baseApi.injectEndpoints({
         url: '/v1/auth/login',
       }),
     }),
-    resendVerificationCode: builder.mutation<ResponseSuccessCase, ResendEmailRequestBody>({
+    resendEmail: builder.mutation<void, ResendEmailRequestBody>({
       query: body => ({
         body,
         method: 'POST',
         url: 'v1/auth/registration-email-resending',
       }),
     }),
-    sendEmail: builder.mutation<ResponseSuccessCase, SendEmailRequestBody>({
+    sendEmail: builder.mutation<void, SendEmailRequestBody>({
       query: body => ({
         body,
         method: 'POST',
         url: 'v1/auth/registration',
       }),
+      transformErrorResponse: (response, _meta, _arg) => {
+        return apiErrorsAdapter(response)
+      },
     }),
-    sendVerificationCode: builder.mutation<ResponseSuccessCase, SendVerificationCode>({
+    sendVerificationCode: builder.mutation<void, SendVerificationCode>({
       query: body => ({
         body,
         method: 'POST',
@@ -44,7 +47,7 @@ export const authApi = baseApi.injectEndpoints({
 })
 export const {
   useLoginMutation,
-  useResendVerificationCodeMutation,
+  useResendEmailMutation,
   useSendEmailMutation,
   useSendVerificationCodeMutation,
 } = authApi

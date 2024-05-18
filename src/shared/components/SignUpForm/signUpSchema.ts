@@ -16,7 +16,7 @@ const signUpSchema = object({
       /^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~])[0-9A-Za-z!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]+$/,
       `Password must contain 0-9, a-z, A-Z, ! " # $ % & ' ( ) * + , - . / : ; < = > ? @ [ \\ ] ^ _\` { | } ~`
     ),
-  username: string()
+  userName: string()
     .min(1, "Username field can't be empty")
     .min(6, 'Minimum number of characters 6')
     .max(30, 'Maximum number of characters 30'),
