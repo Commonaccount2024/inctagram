@@ -1,18 +1,27 @@
 import { baseApi } from '@/shared/api/baseApi'
+import { formFieldsErrorAdapter } from '@/shared/utils/form-fields-error-adapter'
 
-import { LoginParams, LoginResponse } from './auth.types'
+import {
+  ConfirmEmailRequestBody,
+  ForgotPasswordParams,
+  LoginParams,
+  LoginResponse,
+  NewPasswordParams,
+  ResendEmailRequestBody,
+  SendEmailRequestBody,
+} from './auth.types'
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: builder => ({
-    createPassword: builder.mutation<any, any>({
-      query: ({ newPassword, recoveryCode }) => {
+    createPassword: builder.mutation<void, NewPasswordParams>({
+      query: ({ newPassword, passwordConfirmation }) => {
         return {
           body: {
             newPassword,
-            recoveryCode,
+            passwordConfirmation,
           },
           method: 'POST',
-          url: 'auth/new-password',
+          url: '/v1/auth/new-password',
         }
       },
     }),
@@ -24,7 +33,7 @@ export const authApi = baseApi.injectEndpoints({
         url: '/v1/auth/login',
       }),
     }),
-    recoverPassword: builder.mutation<any, any>({
+    recoverPassword: builder.mutation<void, ForgotPasswordParams>({
       query: ({ email, recaptcha }) => {
         return {
           body: {
@@ -32,10 +41,44 @@ export const authApi = baseApi.injectEndpoints({
             recaptcha,
           },
           method: 'POST',
-          url: '/v1/auth/password-recovery',
+          url: 'v1/auth/password-recovery',
         }
+      },
+    }),
+    resendEmail: builder.mutation<void, ResendEmailRequestBody>({
+      query: body => ({
+        body,
+        method: 'POST',
+        url: 'v1/auth/registration-email-resending',
+      }),
+    }),
+    sendEmail: builder.mutation<void, SendEmailRequestBody>({
+      query: body => ({
+        body,
+        method: 'POST',
+        url: 'v1/auth/registration',
+      }),
+      transformErrorResponse: (response, _meta, _arg) => {
+        return formFieldsErrorAdapter(response)
+      },
+    }),
+    verifyConfirmationCode: builder.mutation<void, ConfirmEmailRequestBody>({
+      query: body => ({
+        body,
+        method: 'POST',
+        url: 'v1/auth/registration-confirmation',
+      }),
+      transformErrorResponse: (response, _meta, _arg) => {
+        return formFieldsErrorAdapter(response)
       },
     }),
   }),
 })
-export const { useCreatePasswordMutation, useLoginMutation, useRecoverPasswordMutation } = authApi
+export const {
+  useCreatePasswordMutation,
+  useLoginMutation,
+  useRecoverPasswordMutation,
+  useResendEmailMutation,
+  useSendEmailMutation,
+  useVerifyConfirmationCodeMutation,
+} = authApi
