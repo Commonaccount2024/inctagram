@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { toast } from 'react-toastify'
 
 import { ResendEmailRequestBody } from '@/feature/auth/api/auth.types'
@@ -7,7 +7,7 @@ import {
   useVerifyConfirmationCodeMutation,
 } from '@/feature/auth/api/authApi'
 import { HeadMeta } from '@/shared/components/headMeta/HeadMeta'
-import { isErrorResponse, isFormError } from '@/shared/utils/form-fields-error-adapter'
+import { isFormError } from '@/shared/utils/form-fields-error-adapter'
 import { Button } from '@commonaccount2024/inctagram-ui-kit'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -28,7 +28,7 @@ export default function RegistrationConfirmation() {
       return
     }
     verifyConfirmationCode({ confirmationCode: verificationCode })
-    // the code not changes. A New code will be on a new page
+    // the code doesn't change. A New code will be on a new page
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
