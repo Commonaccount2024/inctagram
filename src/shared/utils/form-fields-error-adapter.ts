@@ -1,13 +1,13 @@
 import {
   ErrorResponse,
-  FormErrorField,
+  FormFieldError,
   SIGNIN_FORM_FIELDS,
   SIGNUP_FORM_FIELDS,
   SendEmailRequestBody,
 } from '@/feature/auth/api/auth.types'
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 
-type FormError = Record<FormErrorField, string>
+type FormError = Record<FormFieldError, string>
 
 export function formFieldsErrorAdapter(error?: FetchBaseQueryError) {
   const res = {} as FormError

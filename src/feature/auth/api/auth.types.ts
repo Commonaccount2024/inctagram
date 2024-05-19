@@ -16,13 +16,13 @@ export type SendEmailRequestBody = {
 
 export const SIGNUP_FORM_FIELDS = ['baseUrl', 'email', 'password', 'userName', 'code'] as const
 export const SIGNIN_FORM_FIELDS = ['email', 'password', 'userName'] as const
-export type FormErrorField =
+export type FormFieldError =
   | (typeof SIGNIN_FORM_FIELDS)[number]
   | (typeof SIGNUP_FORM_FIELDS)[number]
 
 export type ErrorResponse = {
   error: string
-  messages: { field: FormErrorField; message: string }[]
+  messages: { field: FormFieldError; message: string }[]
   statusCode: number
 }
 
