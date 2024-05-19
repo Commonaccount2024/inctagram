@@ -3,13 +3,14 @@ import { useForm } from 'react-hook-form'
 
 import { LoginParams } from '@/feature/auth/api/auth.types'
 import { useLoginMutation } from '@/feature/auth/api/authApi'
-import { Button, Typography } from '@commonaccount2024/inctagram-ui-kit'
+import { Button } from '@commonaccount2024/inctagram-ui-kit'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import s from '@/pages/Home.module.scss'
 
 import { ControlledTextField } from '../controlled/controlledTextField/controlledTextField'
+
 const LoginForm = () => {
   const {
     control,
@@ -67,9 +68,9 @@ const LoginForm = () => {
         {error && <div>{error}</div>}
       </form>
       <p>Don’t have an account?</p>
-      <Typography as={Link} className={s.signInLink} href={'/signUp'} variant={'h3'}>
+      <Link className={s.signInLink} href={'/signUp'}>
         Sign Up
-      </Typography>
+      </Link>
     </div>
   )
 }
