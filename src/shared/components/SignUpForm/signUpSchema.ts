@@ -27,4 +27,4 @@ const signUpSchema = object({
 
 export { signUpSchema }
 
-export type FormFields = z.infer<typeof signUpSchema>
+export type SignUpFormFields = z.infer<typeof signUpSchema>

@@ -4,13 +4,14 @@ import { toast } from 'react-toastify'
 import { SendEmailRequestBody } from '@/feature/auth/api/auth.types'
 import { useSendEmailMutation } from '@/feature/auth/api/authApi'
 import { useRouterLocaleDefination } from '@/shared/hooks/useRouterLocaleDefination'
-import { isSignUpFormError } from '@/shared/utils/api-errors-adapter'
+import { isFormError } from '@/shared/utils/form-fields-error-adapter'
+import { Button } from '@commonaccount2024/inctagram-ui-kit'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 
 import styles from './SignUpForm.module.scss'
 
-import { FormFields, signUpSchema } from './signUpSchema'
+import { SignUpFormFields, signUpSchema } from './signUpSchema'
 
 const notify = {
   successSendEmail: function (userEmail: string) {
@@ -28,7 +29,7 @@ export function RegistrationForm() {
     reset,
     setError,
     watch,
-  } = useForm<FormFields>({
+  } = useForm<SignUpFormFields>({
     defaultValues: {
       confirmPassword: '',
       email: '',
@@ -41,7 +42,7 @@ export function RegistrationForm() {
   const [sendMail, { isLoading }] = useSendEmailMutation()
   const agreeToTerms = watch('agreeToTerms')
 
-  const onSubmit: SubmitHandler<FormFields> = async data => {
+  const onSubmit: SubmitHandler<SignUpFormFields> = async data => {
     try {
       const requestBody: SendEmailRequestBody = {
         baseUrl: process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000',
@@ -54,9 +55,9 @@ export function RegistrationForm() {
       reset()
       notify.successSendEmail(data.email)
     } catch (err) {
-      if (isSignUpFormError(err)) {
+      if (isFormError(err)) {
         for (const property in err) {
-          setError(property as keyof FormFields, {
+          setError(property as keyof SignUpFormFields, {
             message: err[property as keyof typeof err],
             type: 'custom',
           })
@@ -107,9 +108,9 @@ export function RegistrationForm() {
         </div>
 
         {errors.agreeToTerms && <span className={styles.error}>{errors.agreeToTerms.message}</span>}
-        <button disabled={!isValid || !agreeToTerms} type={'submit'}>
+        <Button disabled={!isValid || !agreeToTerms} type={'submit'}>
           Sign Up
-        </button>
+        </Button>
         {isLoading && <p>Sending data...</p>}
       </form>
       <div className={styles.row}>

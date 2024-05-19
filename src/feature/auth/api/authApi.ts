@@ -1,12 +1,12 @@
 import { baseApi } from '@/shared/api/baseApi'
-import { apiErrorsAdapter } from '@/shared/utils/api-errors-adapter'
+import { formFieldsErrorAdapter } from '@/shared/utils/form-fields-error-adapter'
 
 import {
+  ConfirmEmailRequestBody,
   LoginParams,
   LoginResponse,
   ResendEmailRequestBody,
   SendEmailRequestBody,
-  SendVerificationCode,
 } from './auth.types'
 
 export const authApi = baseApi.injectEndpoints({
@@ -33,15 +33,18 @@ export const authApi = baseApi.injectEndpoints({
         url: 'v1/auth/registration',
       }),
       transformErrorResponse: (response, _meta, _arg) => {
-        return apiErrorsAdapter(response)
+        return formFieldsErrorAdapter(response)
       },
     }),
-    sendVerificationCode: builder.mutation<void, SendVerificationCode>({
+    verifyConfirmationCode: builder.mutation<void, ConfirmEmailRequestBody>({
       query: body => ({
         body,
         method: 'POST',
         url: 'v1/auth/registration-confirmation',
       }),
+      transformErrorResponse: (response, _meta, _arg) => {
+        return formFieldsErrorAdapter(response)
+      },
     }),
   }),
 })
@@ -49,5 +52,5 @@ export const {
   useLoginMutation,
   useResendEmailMutation,
   useSendEmailMutation,
-  useSendVerificationCodeMutation,
+  useVerifyConfirmationCodeMutation,
 } = authApi

@@ -14,13 +14,19 @@ export type SendEmailRequestBody = {
   userName: string
 }
 
+export const SIGNUP_FORM_FIELDS = ['baseUrl', 'email', 'password', 'userName', 'code'] as const
+export const SIGNIN_FORM_FIELDS = ['email', 'password', 'userName'] as const
+export type FormErrorField =
+  | (typeof SIGNIN_FORM_FIELDS)[number]
+  | (typeof SIGNUP_FORM_FIELDS)[number]
+
 export type ErrorResponse = {
   error: string
-  messages: { field: string; message: string }[]
+  messages: { field: FormErrorField; message: string }[]
   statusCode: number
 }
 
-export type SendVerificationCode = {
+export type ConfirmEmailRequestBody = {
   confirmationCode: string
 }
 

@@ -2,14 +2,19 @@ import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
 import { ResendEmailRequestBody } from '@/feature/auth/api/auth.types'
-import { useResendEmailMutation, useSendVerificationCodeMutation } from '@/feature/auth/api/authApi'
+import {
+  useResendEmailMutation,
+  useVerifyConfirmationCodeMutation,
+} from '@/feature/auth/api/authApi'
 import { HeadMeta } from '@/shared/components/headMeta/HeadMeta'
+import { isErrorResponse, isFormError } from '@/shared/utils/form-fields-error-adapter'
+import { Button } from '@commonaccount2024/inctagram-ui-kit'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 export default function RegistrationConfirmation() {
-  const [sendCode, { error: sendCodeError, isLoading: verifyingCode }] =
-    useSendVerificationCodeMutation()
+  const [verifyConfirmationCode, { error: verifyCodeError, isLoading: verifyingCode }] =
+    useVerifyConfirmationCodeMutation()
   const [resendEmail, { error: resendError, isError: resendEmailError, isLoading: isResending }] =
     useResendEmailMutation()
 
@@ -22,8 +27,10 @@ export default function RegistrationConfirmation() {
     if (!verificationCode) {
       return
     }
-    sendCode({ confirmationCode: verificationCode })
-  }, [verificationCode])
+    verifyConfirmationCode({ confirmationCode: verificationCode })
+    // the code not changes. A New code will be on a new page
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const onResendCode = async () => {
     if (!mailForResend) {
@@ -32,46 +39,44 @@ export default function RegistrationConfirmation() {
       return
     }
 
-    try {
-      const requestBody: ResendEmailRequestBody = {
-        baseUrl: `${process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'}`,
-        email: mailForResend,
-      }
+    const requestBody: ResendEmailRequestBody = {
+      baseUrl: `${process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'}`,
+      email: mailForResend,
+    }
 
-      await resendEmail(requestBody)
+    await resendEmail(requestBody)
 
-      !resendEmailError && toast.success(`Please check your email`)
-    } catch (err) {
-      toast.error(JSON.stringify(err))
+    !resendEmailError && toast.success(`Please check your email`)
+  }
+
+  const getFailureMessage = () => {
+    if (isFormError(verifyCodeError)) {
+      return verifyCodeError.code
     }
   }
 
   return (
     <>
-      {sendCodeError && (
+      {verifyCodeError && (
         <>
           <HeadMeta title={'registration-confirmation'} />
-          <p style={{ color: 'red' }}>
-            {
-              //todo check the actual type
-              // @ts-ignore
-              sendCodeError?.data?.messages?.length > 0 && sendCodeError.data.messages[0].message
-            }
-          </p>
+          <p style={{ color: 'red' }}>{getFailureMessage()}</p>
           <br />
-          <button onClick={onResendCode} type={'button'}>
+          <Button onClick={onResendCode} type={'button'}>
             Resend verification link
-          </button>
+          </Button>
           {isResending && <p>sending data...</p>}
         </>
       )}
-      {!sendCodeError && !verifyingCode && (
+      {!verifyCodeError && !verifyingCode && (
         <>
           <h1>Congratulations!</h1>
           <br />
           <p>Your email has been confirmed</p>
           <br />
-          <Link href={'/signIn'}>Sign In</Link>
+          <Link href={'/signIn'}>
+            <Button>Sign In</Button>
+          </Link>
         </>
       )}
     </>
