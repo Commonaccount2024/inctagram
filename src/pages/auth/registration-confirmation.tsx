@@ -49,7 +49,7 @@ export default function RegistrationConfirmation() {
     !resendEmailError && toast.success(`Please check your email`)
   }
 
-  const getFailureMessage = () => {
+  const getVerifyCodeErrorMessage = () => {
     if (isFormError(verifyCodeError)) {
       return verifyCodeError.code
     }
@@ -60,7 +60,7 @@ export default function RegistrationConfirmation() {
       {verifyCodeError && (
         <>
           <HeadMeta title={'registration-confirmation'} />
-          <p style={{ color: 'red' }}>{getFailureMessage()}</p>
+          <p style={{ color: 'red' }}>{getVerifyCodeErrorMessage()}</p>
           <br />
           <Button onClick={onResendCode} type={'button'}>
             Resend verification link
