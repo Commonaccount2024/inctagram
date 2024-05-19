@@ -1,5 +1,6 @@
 import { PropsWithChildren, ReactElement } from 'react'
 
+import { store } from '@/application/store'
 import LangSelect from '@/shared/components/LangSelect/LangSelect'
 import { NavBar } from '@/shared/components/navBar/NavBar'
 import { NextPage } from 'next'

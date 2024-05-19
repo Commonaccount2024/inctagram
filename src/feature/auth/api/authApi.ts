@@ -1,12 +1,12 @@
 import { baseApi } from '@/shared/api/baseApi'
+import { formFieldsErrorAdapter } from '@/shared/utils/form-fields-error-adapter'
 
 import {
+  ConfirmEmailRequestBody,
   LoginParams,
   LoginResponse,
   ResendEmailRequestBody,
-  ResponseSuccessCase,
   SendEmailRequestBody,
-  SendVerificationCode,
 } from './auth.types'
 
 export const authApi = baseApi.injectEndpoints({
@@ -19,32 +19,38 @@ export const authApi = baseApi.injectEndpoints({
         url: '/v1/auth/login',
       }),
     }),
-    resendVerificationCode: builder.mutation<ResponseSuccessCase, ResendEmailRequestBody>({
+    resendEmail: builder.mutation<void, ResendEmailRequestBody>({
       query: body => ({
         body,
         method: 'POST',
         url: 'v1/auth/registration-email-resending',
       }),
     }),
-    sendEmail: builder.mutation<ResponseSuccessCase, SendEmailRequestBody>({
+    sendEmail: builder.mutation<void, SendEmailRequestBody>({
       query: body => ({
         body,
         method: 'POST',
         url: 'v1/auth/registration',
       }),
+      transformErrorResponse: (response, _meta, _arg) => {
+        return formFieldsErrorAdapter(response)
+      },
     }),
-    sendVerificationCode: builder.mutation<ResponseSuccessCase, SendVerificationCode>({
+    verifyConfirmationCode: builder.mutation<void, ConfirmEmailRequestBody>({
       query: body => ({
         body,
         method: 'POST',
         url: 'v1/auth/registration-confirmation',
       }),
+      transformErrorResponse: (response, _meta, _arg) => {
+        return formFieldsErrorAdapter(response)
+      },
     }),
   }),
 })
 export const {
   useLoginMutation,
-  useResendVerificationCodeMutation,
+  useResendEmailMutation,
   useSendEmailMutation,
-  useSendVerificationCodeMutation,
+  useVerifyConfirmationCodeMutation,
 } = authApi
