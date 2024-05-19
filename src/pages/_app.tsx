@@ -1,52 +1,36 @@
 import type { AppProps } from 'next/app'
 
 import { Provider } from 'react-redux'
+import { ToastContainer } from 'react-toastify'
 
 import { store } from '@/app/store'
-import { useEffect } from 'react'
-
 import { Layout } from '@/shared/components/layout/Layout'
-import { paths } from '@/shared/constans/paths'
-import axios from 'axios'
-import * as dotenv from 'dotenv'
 import { Inter } from 'next/font/google'
-import { useRouter } from 'next/router'
-dotenv.config()
-import '@/styles/globals.css'
+
+import '@/styles/_colors.scss'
+import '@/styles/_typography.scss'
+import '@/styles/globals.scss'
 import '@commonaccount2024/inctagram-ui-kit/dist/style.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function App({ Component, pageProps }: AppProps) {
-  const router = useRouter()
-  const googlePath = paths.urlGoogleLogin
-  const { code } = router.query
-
-  useEffect(() => {
-    if (code) {
-      axios
-        .post(googlePath, {
-          code,
-        })
-        .then(data => {
-          if (data.data.accessToken && data.data.email) {
-            localStorage.setItem('accessToken', data.data.accessToken as string)
-
-            console.log('accessToken saved')
-            router.push(`/`)
-
-            return
-          }
-        })
-        .catch(e => {
-          console.log('error', e)
-        })
-    }
-  }, [code])
-
   return (
     <main className={inter.className}>
       <Provider store={store}>
+        <ToastContainer
+          closeOnClick
+          draggable={false}
+          hideProgressBar
+          limit={3}
+          newestOnTop
+          pauseOnFocusLoss={false}
+          pauseOnHover={false}
+          position={'top-center'}
+          rtl={false}
+          // autoClose={3000}
+          // theme={'colored'}
+        />
         <Layout>
           <Component {...pageProps} />
         </Layout>
