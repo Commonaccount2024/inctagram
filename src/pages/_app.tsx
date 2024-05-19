@@ -3,7 +3,7 @@ import type { AppProps } from 'next/app'
 import { Provider } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 
-import { store } from '@/app/store'
+import { store } from '@/application/store'
 import { Layout } from '@/shared/components/layout/Layout'
 import { Inter } from 'next/font/google'
 

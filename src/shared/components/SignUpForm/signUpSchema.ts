@@ -16,7 +16,7 @@ const signUpSchema = object({
       /^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~])[0-9A-Za-z!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]+$/,
       `Password must contain 0-9, a-z, A-Z, ! " # $ % & ' ( ) * + , - . / : ; < = > ? @ [ \\ ] ^ _\` { | } ~`
     ),
-  username: string()
+  userName: string()
     .min(1, "Username field can't be empty")
     .min(6, 'Minimum number of characters 6')
     .max(30, 'Maximum number of characters 30'),
@@ -27,4 +27,4 @@ const signUpSchema = object({
 
 export { signUpSchema }
 
-export type FormFields = z.infer<typeof signUpSchema>
+export type SignUpFormFields = z.infer<typeof signUpSchema>
