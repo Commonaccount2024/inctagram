@@ -39,7 +39,7 @@ export default function RegistrationConfirmation() {
           setVerificationError(false)
         })
     }
-  },[verificationCode])
+  }, [verificationCode])
 
   const onResendCode = async () => {
     try {
