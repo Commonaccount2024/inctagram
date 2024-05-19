@@ -1,85 +1,82 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { toast } from 'react-toastify'
 
-import { ResendEmailRequestBody, SendVerificationCode } from '@/feature/auth/api/auth.types'
+import { ResendEmailRequestBody } from '@/feature/auth/api/auth.types'
 import {
-  useResendVerificationCodeMutation,
-  useSendVerificationCodeMutation,
+  useResendEmailMutation,
+  useVerifyConfirmationCodeMutation,
 } from '@/feature/auth/api/authApi'
 import { HeadMeta } from '@/shared/components/headMeta/HeadMeta'
-import { useAuthHandleError } from '@/shared/hooks/useAuthHandleError'
+import { isFormError } from '@/shared/utils/form-fields-error-adapter'
+import { Button } from '@commonaccount2024/inctagram-ui-kit'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 export default function RegistrationConfirmation() {
-  const [verificationError, setVerificationError] = useState(true)
-  const errorAuthHandle = useAuthHandleError()
-  const [sendCode, { isError: isSendError }] = useSendVerificationCodeMutation()
-  const [resendCode, { isLoading: isResending }] = useResendVerificationCodeMutation()
+  const [verifyConfirmationCode, { error: verifyCodeError, isLoading: verifyingCode }] =
+    useVerifyConfirmationCodeMutation()
+  const [resendEmail, { error: resendError, isError: resendEmailError, isLoading: isResending }] =
+    useResendEmailMutation()
+
   const router = useRouter()
   const { code, email } = router.query
   const verificationCode = Array.isArray(code) ? code[0] : code
   const mailForResend = Array.isArray(email) ? email[0] : email
 
   useEffect(() => {
-    if (verificationCode) {
-      const requestBody: SendVerificationCode = {
-        confirmationCode: verificationCode,
-      }
-
-      sendCode(requestBody)
-        .unwrap()
-        .then(() => setVerificationError(true))
-        .catch(error => {
-          const errorData = errorAuthHandle(error)
-
-          toast.error(errorData.errorMessage)
-        })
-        .finally(() => {
-          setVerificationError(false)
-        })
+    if (!verificationCode) {
+      return
     }
-  }, [verificationCode])
+    verifyConfirmationCode({ confirmationCode: verificationCode })
+    // the code doesn't change. A New code will be on a new page
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const onResendCode = async () => {
-    try {
-      if (mailForResend) {
-        const requestBody: ResendEmailRequestBody = {
-          baseUrl: `${process.env.NEXT_PUBLIC_BASE_URL}`,
-          email: mailForResend,
-        }
+    if (!mailForResend) {
+      toast.error('email info missing')
 
-        await resendCode(requestBody).unwrap()
-        toast.success(`Please check your email`)
-      }
-    } catch (err) {
-      const errorData = errorAuthHandle(err)
+      return
+    }
 
-      toast.error(errorData.errorMessage)
+    const requestBody: ResendEmailRequestBody = {
+      baseUrl: `${process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'}`,
+      email: mailForResend,
+    }
+
+    await resendEmail(requestBody)
+
+    !resendEmailError && toast.success(`Please check your email`)
+  }
+
+  const getVerifyCodeErrorMessage = () => {
+    if (isFormError(verifyCodeError)) {
+      return verifyCodeError.code
     }
   }
 
   return (
     <>
-      {verificationError || isSendError ? (
+      {verifyCodeError && (
         <>
           <HeadMeta title={'registration-confirmation'} />
-          <p>
-            Looks like the verification link has expired. Not to worry, we can send the link again
-          </p>
+          <p style={{ color: 'red' }}>{getVerifyCodeErrorMessage()}</p>
           <br />
-          <button onClick={onResendCode} type={'button'}>
+          <Button onClick={onResendCode} type={'button'}>
             Resend verification link
-          </button>
+          </Button>
           {isResending && <p>sending data...</p>}
         </>
-      ) : (
+      )}
+      {!verifyCodeError && !verifyingCode && (
         <>
           <h1>Congratulations!</h1>
           <br />
           <p>Your email has been confirmed</p>
           <br />
-          <Link href={'/signIn'}>Sign In</Link>
+          <Link href={'/signIn'}>
+            <Button>Sign In</Button>
+          </Link>
         </>
       )}
     </>
