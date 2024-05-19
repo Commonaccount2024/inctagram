@@ -14,15 +14,19 @@ export type SendEmailRequestBody = {
   userName: string
 }
 
-export type ResponseErrorDataType = {
+export const SIGNUP_FORM_FIELDS = ['baseUrl', 'email', 'password', 'userName', 'code'] as const
+export const SIGNIN_FORM_FIELDS = ['email', 'password', 'userName'] as const
+export type FormFieldError =
+  | (typeof SIGNIN_FORM_FIELDS)[number]
+  | (typeof SIGNUP_FORM_FIELDS)[number]
+
+export type ErrorResponse = {
   error: string
-  messages: { field: string; message: string }[]
+  messages: { field: FormFieldError; message: string }[]
   statusCode: number
 }
 
-export type ResponseSuccessCase = ResponseErrorDataType | void
-
-export type SendVerificationCode = {
+export type ConfirmEmailRequestBody = {
   confirmationCode: string
 }
 

@@ -18,3 +18,30 @@
   line-height: 36px;
   text-align: center;
 }
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+
+  input {
+    height: 2rem;
+    background-color: transparent;
+    border: 1px solid gray;
+
+    &:focus {
+      outline: 1px solid deepskyblue;
+    }
+  }
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  gap: 0.3rem;
+  align-items: center;
+
+  * {
+    font-size: 0.875rem;
+  }
+}
