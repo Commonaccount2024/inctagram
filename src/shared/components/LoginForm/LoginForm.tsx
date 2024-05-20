@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 
 import { LoginParams } from '@/feature/auth/api/auth.types'
 import { useLoginMutation } from '@/feature/auth/api/authApi'
+import { OAuth } from '@/feature/oAuth/oAuth'
 import { Button } from '@commonaccount2024/inctagram-ui-kit'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -33,13 +34,14 @@ const LoginForm = () => {
 
       router.push('/profile')
     } catch (error) {
-      setError('Произошла ошибка. Пожалуйста попробуйте еще раз')
+      setError('The email or password are incorrect. Try again please')
     }
   }
 
   return (
     <div className={s.div}>
-      <h1>Sign in</h1>
+      <h1 className={s.title}>Sign in</h1>
+      <OAuth />
       <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
         <ControlledTextField
           className={s.inputEmail}
@@ -61,15 +63,18 @@ const LoginForm = () => {
           rules={{ required: 'Password is required' }}
           type={'password'}
         />
+        {error && <p className={s.error}>{error}</p>}
+        <Link href={'/forgotPassword'}>
+          <p className={s.forgotPassword}>Forgot Password</p>
+        </Link>
 
         <Button fullWidth type={'submit'}>
           Sign In
         </Button>
-        {error && <div>{error}</div>}
       </form>
-      <p>Don’t have an account?</p>
+      <p className={s.text}>Don&apos;t have an account?</p>
       <Link className={s.signInLink} href={'/signUp'}>
-        Sign Up
+        <p className={s.signUp}>Sign Up</p>
       </Link>
     </div>
   )
