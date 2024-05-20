@@ -1,10 +1,11 @@
+import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
 import { SendEmailRequestBody } from '@/feature/auth/api/auth.types'
 import { useSendEmailMutation } from '@/feature/auth/api/authApi'
 import { useRouterLocaleDefination } from '@/shared/hooks/useRouterLocaleDefination'
-import { isFormError } from '@/shared/utils/form-fields-error-adapter'
+import { authHandleError } from '@/shared/utils/authHandleError'
 import { Button } from '@commonaccount2024/inctagram-ui-kit'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
@@ -14,6 +15,9 @@ import styles from './SignUpForm.module.scss'
 import { SignUpFormFields, signUpSchema } from './signUpSchema'
 
 const notify = {
+  errorRegistrationEmail: function (err: unknown) {
+    toast.error(`Unexpected error during registration: ${err}`)
+  },
   successSendEmail: function (userEmail: string) {
     toast.success(`We have sent a link to confirm your email to ${userEmail}`)
   },
@@ -21,6 +25,8 @@ const notify = {
 
 export function RegistrationForm() {
   const routerLocale = useRouterLocaleDefination()
+  const [ifExists, setIfExists] = useState('')
+  const handleError = authHandleError()
 
   const {
     formState: { errors, isValid },
@@ -42,10 +48,14 @@ export function RegistrationForm() {
   const [sendMail, { isLoading }] = useSendEmailMutation()
   const agreeToTerms = watch('agreeToTerms')
 
+  const clearInput = () => setIfExists('')
+
   const onSubmit: SubmitHandler<SignUpFormFields> = async data => {
+    clearInput()
+
     try {
       const requestBody: SendEmailRequestBody = {
-        baseUrl: process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000',
+        baseUrl: `${process.env.NEXT_PUBLIC_BASE_URL}`,
         email: data.email,
         password: data.password,
         userName: data.userName,
@@ -55,15 +65,14 @@ export function RegistrationForm() {
       reset()
       notify.successSendEmail(data.email)
     } catch (err) {
-      if (isFormError(err)) {
-        for (const property in err) {
-          setError(property as keyof SignUpFormFields, {
-            message: err[property as keyof typeof err],
-            type: 'custom',
-          })
-        }
-      } else {
-        toast.error(JSON.stringify(err))
+      const errorData = handleError(err)
+
+      if (errorData.statusCode === 400) {
+        setIfExists(errorData.field)
+      }
+
+      if (errorData.statusCode === 429) {
+        notify.errorRegistrationEmail('More than 5 attempts from one IP-address during 10 seconds')
       }
     }
   }
@@ -82,11 +91,17 @@ export function RegistrationForm() {
 
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor={'username'}>UserName</label>
-        <input id={'username'} {...register('userName')} type={'text'} />
+        <input id={'username'} {...register('userName')} onInput={clearInput} type={'text'} />
         {errors.userName && <span className={styles.error}>{errors.userName.message}</span>}
+        {ifExists === 'userName' && !errors.userName && (
+          <span className={styles.error}>User with this username is already registered</span>
+        )}
         <label htmlFor={'email'}>Email</label>
-        <input id={'email'} {...register('email')} type={'text'} />
+        <input id={'email'} {...register('email')} onInput={clearInput} type={'text'} />
         {errors.email && <span className={styles.error}>{errors.email.message}</span>}
+        {ifExists === 'email' && !errors.email && (
+          <span className={styles.error}>User with this email is already registered</span>
+        )}
         <label htmlFor={'password'}>Password</label>
         <input id={'password'} {...register('password')} type={'password'} />
         {errors.password && <span className={styles.error}>{errors.password.message}</span>}
