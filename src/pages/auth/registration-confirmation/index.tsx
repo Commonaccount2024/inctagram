@@ -7,16 +7,17 @@ import {
   useVerifyConfirmationCodeMutation,
 } from '@/feature/auth/api/authApi'
 import { HeadMeta } from '@/shared/components/headMeta/HeadMeta'
-import { isFormError } from '@/shared/utils/form-fields-error-adapter'
+import { authHandleError } from '@/shared/utils/authHandleError'
 import { Button } from '@commonaccount2024/inctagram-ui-kit'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 export default function RegistrationConfirmation() {
-  const [verifyConfirmationCode, { error: verifyCodeError, isLoading: verifyingCode }] =
+  const [verifyConfirmationCode, { error: verifyCodeError, isSuccess }] =
     useVerifyConfirmationCodeMutation()
-  const [resendEmail, { error: resendError, isError: resendEmailError, isLoading: isResending }] =
+  const [resendEmail, { isError: resendEmailError, isLoading: isResending }] =
     useResendEmailMutation()
+  const errorAuthHandle = authHandleError()
 
   const router = useRouter()
   const { code, email } = router.query
@@ -28,30 +29,34 @@ export default function RegistrationConfirmation() {
       return
     }
     verifyConfirmationCode({ confirmationCode: verificationCode })
-    // the code doesn't change. A New code will be on a new page
+      .unwrap()
+      .catch(error => {
+        const errorData = errorAuthHandle(error)
+
+        toast.error(errorData.errorMessage)
+      })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [verificationCode])
 
   const onResendCode = async () => {
-    if (!mailForResend) {
-      toast.error('email info missing')
+    try {
+      if (!mailForResend) {
+        toast.error('email info missing')
 
-      return
-    }
+        return
+      }
 
-    const requestBody: ResendEmailRequestBody = {
-      baseUrl: `${process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'}`,
-      email: mailForResend,
-    }
+      const requestBody: ResendEmailRequestBody = {
+        baseUrl: `${process.env.NEXT_PUBLIC_BASE_URL}`,
+        email: mailForResend,
+      }
 
-    await resendEmail(requestBody)
+      await resendEmail(requestBody).unwrap()
+      toast.success(`Please check your email`)
+    } catch (err) {
+      const errorData = errorAuthHandle(err)
 
-    !resendEmailError && toast.success(`Please check your email`)
-  }
-
-  const getVerifyCodeErrorMessage = () => {
-    if (isFormError(verifyCodeError)) {
-      return verifyCodeError.code
+      toast.error(errorData.errorMessage)
     }
   }
 
@@ -60,7 +65,9 @@ export default function RegistrationConfirmation() {
       {verifyCodeError && (
         <>
           <HeadMeta title={'registration-confirmation'} />
-          <p style={{ color: 'red' }}>{getVerifyCodeErrorMessage()}</p>
+          <p>
+            Looks like the verification link has expired. Not to worry, we can send the link again
+          </p>
           <br />
           <Button onClick={onResendCode} type={'button'}>
             Resend verification link
@@ -68,7 +75,7 @@ export default function RegistrationConfirmation() {
           {isResending && <p>sending data...</p>}
         </>
       )}
-      {!verifyCodeError && !verifyingCode && (
+      {isSuccess && (
         <>
           <h1>Congratulations!</h1>
           <br />
