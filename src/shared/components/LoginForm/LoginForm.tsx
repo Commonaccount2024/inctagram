@@ -38,7 +38,7 @@ const LoginForm = () => {
   }
 
   return (
-    <div>
+    <div className={s.div}>
       <h1>Sign in</h1>
       <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
         <ControlledTextField
