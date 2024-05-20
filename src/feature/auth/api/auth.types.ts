@@ -31,3 +31,13 @@ export type ConfirmEmailRequestBody = {
 }
 
 export type ResendEmailRequestBody = Pick<SendEmailRequestBody, 'baseUrl' | 'email'>
+
+export type NewPasswordParams = {
+  newPassword: string
+  passwordConfirmation: string
+}
+
+export type ForgotPasswordParams = {
+  email: string
+  recaptcha: null | string
+}

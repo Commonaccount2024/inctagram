@@ -3,14 +3,28 @@ import { formFieldsErrorAdapter } from '@/shared/utils/form-fields-error-adapter
 
 import {
   ConfirmEmailRequestBody,
+  ForgotPasswordParams,
   LoginParams,
   LoginResponse,
+  NewPasswordParams,
   ResendEmailRequestBody,
   SendEmailRequestBody,
 } from './auth.types'
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: builder => ({
+    createPassword: builder.mutation<void, NewPasswordParams>({
+      query: ({ newPassword, passwordConfirmation }) => {
+        return {
+          body: {
+            newPassword,
+            passwordConfirmation,
+          },
+          method: 'POST',
+          url: '/v1/auth/new-password',
+        }
+      },
+    }),
     login: builder.mutation<LoginResponse, LoginParams>({
       invalidatesTags: ['Me'],
       query: body => ({
@@ -18,6 +32,18 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
         url: '/v1/auth/login',
       }),
+    }),
+    recoverPassword: builder.mutation<void, ForgotPasswordParams>({
+      query: ({ email, recaptcha }) => {
+        return {
+          body: {
+            email,
+            recaptcha,
+          },
+          method: 'POST',
+          url: 'v1/auth/password-recovery',
+        }
+      },
     }),
     resendEmail: builder.mutation<void, ResendEmailRequestBody>({
       query: body => ({
@@ -49,7 +75,9 @@ export const authApi = baseApi.injectEndpoints({
   }),
 })
 export const {
+  useCreatePasswordMutation,
   useLoginMutation,
+  useRecoverPasswordMutation,
   useResendEmailMutation,
   useSendEmailMutation,
   useVerifyConfirmationCodeMutation,
