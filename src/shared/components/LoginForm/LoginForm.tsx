@@ -7,7 +7,7 @@ import { Button } from '@commonaccount2024/inctagram-ui-kit'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import s from '@/pages/Home.module.scss'
+import s from './LoginForm.module.scss'
 
 import { ControlledTextField } from '../controlled/controlledTextField/controlledTextField'
 
