@@ -19,13 +19,12 @@ body {
   padding: 0;
 
   font-size: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   line-height: var(--line-height-m);
   color: var(--Light-100);
 
   background-color: var(--Dark-700);
-
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 button {
