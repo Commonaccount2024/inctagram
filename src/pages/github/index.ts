@@ -11,10 +11,8 @@ export default function GithubPage() {
     if (accessToken && email) {
       localStorage.setItem('accessToken', accessToken as string)
 
-      console.log('accessToken saved')
       router.push(`/`)
-
-      return
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accessToken])
 }
