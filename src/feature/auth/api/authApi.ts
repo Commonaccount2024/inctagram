@@ -1,5 +1,4 @@
 import { baseApi } from '@/shared/api/baseApi'
-import { formFieldsErrorAdapter } from '@/shared/utils/form-fields-error-adapter'
 
 import {
   ConfirmEmailRequestBody,
@@ -58,9 +57,6 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
         url: 'v1/auth/registration',
       }),
-      transformErrorResponse: (response, _meta, _arg) => {
-        return formFieldsErrorAdapter(response)
-      },
     }),
     verifyConfirmationCode: builder.mutation<void, ConfirmEmailRequestBody>({
       query: body => ({
@@ -68,9 +64,6 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
         url: 'v1/auth/registration-confirmation',
       }),
-      transformErrorResponse: (response, _meta, _arg) => {
-        return formFieldsErrorAdapter(response)
-      },
     }),
   }),
 })
