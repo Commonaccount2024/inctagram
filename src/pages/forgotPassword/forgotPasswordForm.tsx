@@ -1,5 +1,7 @@
+// eslint-disable-next-line import/no-named-as-default
 import ReCAPTCHA from 'react-google-recaptcha'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 
 import { ForgotPasswordParams } from '@/feature/auth/api/auth.types'
 import { useRecoverPasswordMutation } from '@/feature/auth/api/authApi'
@@ -21,13 +23,10 @@ export default function ForgotPasswordForm() {
 
   const onSubmit: SubmitHandler<ForgotPasswordParams> = async data => {
     try {
-      const response = await recoverPassword(data).unwrap()
-
-      console.log('response:', response)
-      alert('Email sent')
-    } catch (error) {
-      console.error('Failed to recover password:', error)
-      alert('Failed to send email')
+      await recoverPassword(data).unwrap()
+      toast.success('Сообщение отправлено на email')
+    } catch (e: any) {
+      toast.error(e.data.error)
     }
   }
 
