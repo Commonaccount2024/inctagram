@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { LoginParams } from '@/feature/auth/api/auth.types'
 import { useLoginMutation } from '@/feature/auth/api/authApi'
 import { OAuth } from '@/feature/oAuth/oAuth'
-import { Button } from '@commonaccount2024/inctagram-ui-kit'
+import { Button, Card } from '@commonaccount2024/inctagram-ui-kit'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
@@ -39,7 +39,7 @@ const LoginForm = () => {
   }
 
   return (
-    <div className={s.div}>
+    <Card className={s.div}>
       <h1 className={s.title}>Sign in</h1>
       <OAuth />
       <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
@@ -76,7 +76,7 @@ const LoginForm = () => {
       <Link className={s.signInLink} href={'/signUp'}>
         <p className={s.signUp}>Sign Up</p>
       </Link>
-    </div>
+    </Card>
   )
 }
 
