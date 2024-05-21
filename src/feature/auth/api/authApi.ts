@@ -32,6 +32,13 @@ export const authApi = baseApi.injectEndpoints({
         url: '/v1/auth/login',
       }),
     }),
+    logout: builder.mutation<void, void>({
+      invalidatesTags: ['Me'],
+      query: () => ({
+        method: 'POST',
+        url: '/v1/auth/logout',
+      }),
+    }),
     recoverPassword: builder.mutation<void, ForgotPasswordParams>({
       query: ({ email, recaptcha }) => {
         return {
@@ -70,6 +77,7 @@ export const authApi = baseApi.injectEndpoints({
 export const {
   useCreatePasswordMutation,
   useLoginMutation,
+  useLogoutMutation,
   useRecoverPasswordMutation,
   useResendEmailMutation,
   useSendEmailMutation,
