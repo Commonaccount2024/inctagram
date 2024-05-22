@@ -38,15 +38,15 @@ export const authApi = baseApi.injectEndpoints({
       query: () => {
         const token = localStorage.getItem('accessToken')
 
-        if (token) {
-          const decodedToken: { exp: number } = jwtDecode(token)
-          const currentTime = Math.floor(Date.now() / 1000)
-
-          if (decodedToken.exp < currentTime) {
-            throw new Error('Token is expired')
-          }
-        } else {
+        if (!token) {
           throw new Error('No token found')
+        }
+
+        const decodedToken: { exp: number } = jwtDecode(token)
+        const currentTime = Math.floor(Date.now() / 1000)
+
+        if (decodedToken.exp < currentTime) {
+          throw new Error('Token is expired')
         }
 
         return {

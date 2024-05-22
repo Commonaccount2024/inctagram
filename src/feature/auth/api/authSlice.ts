@@ -31,4 +31,4 @@ const authSlice = createSlice({
 
 export const { clearUser, setUser } = authSlice.actions
 export default authSlice.reducer
-export const selectUserEmai = (state: { auth: AuthState }) => state.auth.user?.email
+export const selectUserEmail = (state: { auth: AuthState }) => state.auth.user?.email

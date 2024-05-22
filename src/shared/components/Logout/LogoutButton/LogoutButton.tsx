@@ -3,17 +3,20 @@ import { useSelector } from 'react-redux'
 
 import { RootState } from '@/application/store'
 import { useLogoutMutation } from '@/feature/auth/api/authApi'
-import { selectUserEmai } from '@/feature/auth/api/authSlice'
-import { jwtDecode } from 'jwt-decode'
+import { selectUserEmail } from '@/feature/auth/api/authSlice'
 import { useRouter } from 'next/router'
 
 import { LogoutModal } from '../LogoutModal/LogoutModal'
-
+interface LogoutError {
+  data?: {
+    statusCode?: number
+  }
+}
 export const LogoutButton = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [error, setError] = useState<null | string>(null)
   const router = useRouter()
-  const email = useSelector((state: RootState) => selectUserEmai(state))
+  const email = useSelector((state: RootState) => selectUserEmail(state))
   const [logout, { isLoading }] = useLogoutMutation()
 
   const handleLogoutClick = () => {
@@ -22,27 +25,17 @@ export const LogoutButton = () => {
 
   const handleConfirmLogout = async () => {
     try {
-      const token = localStorage.getItem('accessToken')
-
-      if (token) {
-        const decodedToken: { exp: number } = jwtDecode(token)
-        const currentTime = Math.floor(Date.now() / 1000)
-
-        if (decodedToken.exp < currentTime) {
-          setError('Token is expired')
-
-          return
-        }
-      } else {
-        setError('No token found')
-
-        return
-      }
       await logout().unwrap()
       localStorage.removeItem('accessToken')
       router.push('/signIn')
     } catch (err) {
-      setError('Failed to log out. Please try again.')
+      const logoutError = err as LogoutError
+
+      if (logoutError.data?.statusCode === 401) {
+        setError('Session expired. Please sign in again.')
+      } else {
+        setError('Failed to log out. Please try again.')
+      }
     } finally {
       setIsModalOpen(false)
     }
