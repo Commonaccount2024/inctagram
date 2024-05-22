@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
 
 import { LoginParams } from '@/feature/auth/api/auth.types'
 import { useLoginMutation } from '@/feature/auth/api/authApi'
+import { setUser } from '@/feature/auth/api/authSlice'
 import { OAuth } from '@/feature/oAuth/oAuth'
 import { Button, Card } from '@commonaccount2024/inctagram-ui-kit'
 import Link from 'next/link'
@@ -25,14 +27,16 @@ const LoginForm = () => {
     mode: 'onBlur',
   })
   const router = useRouter()
-
+  const dispatch = useDispatch()
   const [loginUser] = useLoginMutation()
   const [error, setError] = useState<null | string>(null)
   const onSubmit = async (data: LoginParams) => {
     try {
-      await loginUser(data).unwrap()
+      const response = await loginUser(data).unwrap()
 
-      router.push('/profile')
+      localStorage.setItem('accessToken', response.accessToken)
+      dispatch(setUser({ email: data.email }))
+      router.push('/myProfile')
     } catch (error) {
       setError('The email or password are incorrect. Try again please')
     }
@@ -67,7 +71,6 @@ const LoginForm = () => {
         <Link href={'/forgotPassword'}>
           <p className={s.forgotPassword}>Forgot Password</p>
         </Link>
-
         <Button fullWidth type={'submit'}>
           Sign In
         </Button>

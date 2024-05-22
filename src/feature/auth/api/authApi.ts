@@ -1,4 +1,5 @@
 import { baseApi } from '@/shared/api/baseApi'
+import { jwtDecode } from 'jwt-decode'
 
 import {
   ConfirmEmailRequestBody,
@@ -34,10 +35,29 @@ export const authApi = baseApi.injectEndpoints({
     }),
     logout: builder.mutation<void, void>({
       invalidatesTags: ['Me'],
-      query: () => ({
-        method: 'POST',
-        url: '/v1/auth/logout',
-      }),
+      query: () => {
+        const token = localStorage.getItem('accessToken')
+
+        if (token) {
+          const decodedToken: { exp: number } = jwtDecode(token)
+          const currentTime = Math.floor(Date.now() / 1000)
+
+          if (decodedToken.exp < currentTime) {
+            throw new Error('Token is expired')
+          }
+        } else {
+          throw new Error('No token found')
+        }
+
+        return {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          method: 'POST',
+          url: '/v1/auth/logout',
+        }
+      },
     }),
     recoverPassword: builder.mutation<void, ForgotPasswordParams>({
       query: ({ email, recaptcha }) => {
