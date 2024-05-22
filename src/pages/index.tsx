@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 
 import { ControlledCheckbox } from '@/shared/components/controlled/controlledCheckbox/ControlledCheckbox'
 import { ControlledTextField } from '@/shared/components/controlled/controlledTextField/controlledTextField'
@@ -29,7 +30,6 @@ export default function Home() {
           if (data.data.accessToken && data.data.email) {
             localStorage.setItem('accessToken', data.data.accessToken as string)
 
-            console.log('accessToken saved')
             router.push(`/`)
 
             return
@@ -38,9 +38,10 @@ export default function Home() {
           }
         })
         .catch(e => {
-          console.log('error', e)
+          toast.error(e.message)
         })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [code])
 
   const {
