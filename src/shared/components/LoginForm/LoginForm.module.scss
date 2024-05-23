@@ -1,7 +1,35 @@
-.form {
-  align-items: center;
-}
 .div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  text-align: center;
+  padding: 23px;
+}
+.title {
+  margin-bottom: 13px;
+}
+.form {
+  margin-top: 24px;
+}
+.error {
+  color: var(--Danger-500);
+  max-width: 330px;
+}
+.inputPassword {
+  margin-top: 24px;
+  width: 330px;
+}
+.forgotPassword {
+  color: var(--Light-900);
+  text-align: end;
+  margin-top: 36px;
+  margin-bottom: 24px;
+}
+.text {
+  margin: 18px;
+  color: var(--Light-100);
+}
+.signUp {
+  font-weight: 600;
+  color: var(--Primary-500);
 }

@@ -8,7 +8,6 @@ export default function SignIn() {
   return (
     <>
       <HeadMeta title={routerLocale.signInPage.title} />
-      <h1>{routerLocale.signInPage.title}</h1>
       <LoginForm />
     </>
   )

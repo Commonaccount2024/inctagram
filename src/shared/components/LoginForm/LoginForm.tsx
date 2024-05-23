@@ -1,9 +1,12 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
 
 import { LoginParams } from '@/feature/auth/api/auth.types'
 import { useLoginMutation } from '@/feature/auth/api/authApi'
-import { Button } from '@commonaccount2024/inctagram-ui-kit'
+import { setUser } from '@/feature/auth/api/authSlice'
+import { OAuth } from '@/feature/oAuth/oAuth'
+import { Button, Card, Typography } from '@commonaccount2024/inctagram-ui-kit'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
@@ -24,22 +27,27 @@ const LoginForm = () => {
     mode: 'onBlur',
   })
   const router = useRouter()
-
+  const dispatch = useDispatch()
   const [loginUser] = useLoginMutation()
   const [error, setError] = useState<null | string>(null)
   const onSubmit = async (data: LoginParams) => {
     try {
-      await loginUser(data).unwrap()
+      const response = await loginUser(data).unwrap()
 
-      router.push('/profile')
+      localStorage.setItem('accessToken', response.accessToken)
+      dispatch(setUser({ email: data.email }))
+      router.push('/myProfile')
     } catch (error) {
-      setError('Произошла ошибка. Пожалуйста попробуйте еще раз')
+      setError('The email or password are incorrect. Try again please')
     }
   }
 
   return (
-    <div className={s.div}>
-      <h1>Sign in</h1>
+    <Card className={s.div}>
+      <Typography className={s.title} variant={'h1'}>
+        Sign in
+      </Typography>
+      <OAuth />
       <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
         <ControlledTextField
           className={s.inputEmail}
@@ -61,17 +69,29 @@ const LoginForm = () => {
           rules={{ required: 'Password is required' }}
           type={'password'}
         />
-
+        {error && (
+          <Typography className={s.error} variant={'regular-text-14'}>
+            {error}
+          </Typography>
+        )}
+        <Link href={'/forgotPassword'}>
+          <Typography className={s.forgotPassword} variant={'regular-text-14'}>
+            Forgot Password
+          </Typography>
+        </Link>
         <Button fullWidth type={'submit'}>
           Sign In
         </Button>
-        {error && <div>{error}</div>}
       </form>
-      <p>Don’t have an account?</p>
+      <Typography className={s.text} variant={'regular-text-16'}>
+        Don&apos;t have an account?
+      </Typography>
       <Link className={s.signInLink} href={'/signUp'}>
-        Sign Up
+        <Typography className={s.signUp} variant={'regular-text-16'}>
+          Sign Up
+        </Typography>
       </Link>
-    </div>
+    </Card>
   )
 }
 
