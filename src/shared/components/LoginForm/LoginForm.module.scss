@@ -12,7 +12,7 @@
   margin-top: 24px;
 }
 .error {
-  color: #cc1439;
+  color: var(--Danger-500);
   max-width: 330px;
 }
 .inputPassword {
@@ -20,16 +20,16 @@
   width: 330px;
 }
 .forgotPassword {
-  color: #8d9094;
+  color: var(--Light-900);
   text-align: end;
   margin-top: 36px;
   margin-bottom: 24px;
 }
 .text {
   margin: 18px;
-  color: #ffffff;
+  color: var(--Light-100);
 }
 .signUp {
   font-weight: 600;
-  color: #397df6;
+  color: var(--Primary-500);
 }
