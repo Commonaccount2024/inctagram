@@ -6,7 +6,7 @@ import { LoginParams } from '@/feature/auth/api/auth.types'
 import { useLoginMutation } from '@/feature/auth/api/authApi'
 import { setUser } from '@/feature/auth/api/authSlice'
 import { OAuth } from '@/feature/oAuth/oAuth'
-import { Button, Card } from '@commonaccount2024/inctagram-ui-kit'
+import { Button, Card, Typography } from '@commonaccount2024/inctagram-ui-kit'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
@@ -44,7 +44,9 @@ const LoginForm = () => {
 
   return (
     <Card className={s.div}>
-      <h1 className={s.title}>Sign in</h1>
+      <Typography className={s.title} variant={'h1'}>
+        Sign in
+      </Typography>
       <OAuth />
       <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
         <ControlledTextField
@@ -67,17 +69,27 @@ const LoginForm = () => {
           rules={{ required: 'Password is required' }}
           type={'password'}
         />
-        {error && <p className={s.error}>{error}</p>}
+        {error && (
+          <Typography className={s.error} variant={'regular-text-14'}>
+            {error}
+          </Typography>
+        )}
         <Link href={'/forgotPassword'}>
-          <p className={s.forgotPassword}>Forgot Password</p>
+          <Typography className={s.forgotPassword} variant={'regular-text-14'}>
+            Forgot Password
+          </Typography>
         </Link>
         <Button fullWidth type={'submit'}>
           Sign In
         </Button>
       </form>
-      <p className={s.text}>Don&apos;t have an account?</p>
+      <Typography className={s.text} variant={'regular-text-16'}>
+        Don&apos;t have an account?
+      </Typography>
       <Link className={s.signInLink} href={'/signUp'}>
-        <p className={s.signUp}>Sign Up</p>
+        <Typography className={s.signUp} variant={'regular-text-16'}>
+          Sign Up
+        </Typography>
       </Link>
     </Card>
   )
