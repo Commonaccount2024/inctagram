@@ -4,12 +4,12 @@ pipeline {
     agent any
     environment {
         ENV_TYPE = "production"
-        PORT = 3354
-        NAMESPACE = "it-inctagram-ru"
+        PORT = 3415
+        NAMESPACE = "photo-of-life-ru"
         REGISTRY_HOSTNAME = "itincubator"
         REGISTRY = "registry.hub.docker.com"
-        PROJECT = "it-inctagram"
-        DEPLOYMENT_NAME = "it-inctagram-deployment"
+        PROJECT = "photo-of-life"
+        DEPLOYMENT_NAME = "photo-of-life-deployment"
         IMAGE_NAME = "${env.BUILD_ID}_${env.ENV_TYPE}_${env.GIT_COMMIT}"
         DOCKER_BUILD_NAME = "${env.REGISTRY_HOSTNAME}/${env.PROJECT}:${env.IMAGE_NAME}"
     }
@@ -33,7 +33,7 @@ pipeline {
              steps {
                  echo "Push image started..."
                      script {
-                          docker.withRegistry("https://${env.REGISTRY}", 'it-inctagram-ru') {
+                          docker.withRegistry("https://${env.REGISTRY}", 'photo-of-life-ru') {
                             app.push("${env.IMAGE_NAME}")
                         }
                      }
