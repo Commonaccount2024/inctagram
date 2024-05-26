@@ -6,17 +6,38 @@
   padding: 23px;
 }
 
-.error {
-  color: var(--Danger-500);
+.form {
+  max-width: 380px;
+  
+  &_input {
+    width: 330px;
+    margin-bottom: 24px;
+
+  }
+
+  .confirm{
+    margin-bottom: 12px;
+  }
+
+  .policy {
+    font-size: 12px;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 16px;
+    color: var(--Primary-300, #4c8dff);
+    text-decoration-line: underline;
+  }
+
+  .checkboxContainer{
+    display: flex;
+    gap: 0 4px;
+    align-items: center;
+    margin-bottom: 12px;
+  }
 }
 
-.policy {
-  font-size: 12px;
-  font-weight: 400;
-  font-style: normal;
-  line-height: 16px;
-  color: var(--Primary-300, #4c8dff);
-  text-decoration-line: underline;
+.error {
+  color: var(--Danger-500);
 }
 
 .title {
@@ -28,29 +49,3 @@
   color: var(--Primary-500);
 }
 
-.form {
-  display: flex;
-  flex-direction: column;
-  width: 400px;
-
-  input {
-    height: 2rem;
-    background-color: transparent;
-    border: 1px solid gray;
-
-    &:focus {
-      outline: 1px solid deepskyblue;
-    }
-  }
-}
-
-.row {
-  display: flex;
-  flex-direction: row;
-  gap: 0.3rem;
-  align-items: center;
-
-  * {
-    font-size: 0.875rem;
-  }
-}

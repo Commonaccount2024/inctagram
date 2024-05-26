@@ -19,7 +19,12 @@ const signUpSchema = object({
   userName: string()
     .min(1, "Username field can't be empty")
     .min(6, 'Minimum number of characters 6')
-    .max(30, 'Maximum number of characters 30'),
+    .max(30, 'Maximum number of characters 30')
+    .regex(
+      /^[a-zA-Z0-9_-]+$/,
+      `Username must contain 0-9; A-Z; a-z; _ ; -
+      `
+    ),
 }).refine(data => data.password === data.confirmPassword, {
   message: 'Passwords must match',
   path: ['confirmPassword'],

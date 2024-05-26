@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { SubmitHandler, useController, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
 import { SendEmailRequestBody } from '@/feature/auth/api/auth.types'
 import { useSendEmailMutation } from '@/feature/auth/api/authApi'
 import { useRouterLocaleDefination } from '@/shared/hooks/useRouterLocaleDefination'
-import { Button, Card, Typography } from '@commonaccount2024/inctagram-ui-kit'
+import { Button, Card, Checkbox, Typography } from '@commonaccount2024/inctagram-ui-kit'
 import { authHandleError } from '@/shared/utils/authHandleError'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
@@ -15,6 +15,7 @@ import s from './SignUpForm.module.scss'
 
 import { SignUpFormFields, signUpSchema } from './signUpSchema'
 import { OAuth } from '@/feature/oAuth/oAuth'
+import { ControlledTextField } from '../controlled/controlledTextField/controlledTextField'
 
 const notify = {
   errorRegistrationEmail: function (err: unknown) {
@@ -33,9 +34,8 @@ export function RegistrationForm() {
   const {
     formState: { errors, isValid },
     handleSubmit,
-    register,
     reset,
-    setError,
+    control,
     watch,
   } = useForm<SignUpFormFields>({
     defaultValues: {
@@ -47,6 +47,16 @@ export function RegistrationForm() {
     mode: 'onTouched',
     resolver: zodResolver(signUpSchema),
   })
+
+  const {
+    field: { value, onChange },
+  } = useController({
+    name: 'agreeToTerms',
+    control,
+    defaultValue: false,
+  })
+
+
   const [sendMail, { isLoading }] = useSendEmailMutation()
   const agreeToTerms = watch('agreeToTerms')
 
@@ -87,6 +97,65 @@ export function RegistrationForm() {
       <OAuth />
 
       <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
+        <ControlledTextField
+            onInput={clearInput}
+            className={s.form_input}
+            control={control}
+            error={errors.userName?.message}
+            label={'Username'}
+            name={'userName'}
+            placeholder={'Username'}
+          />
+          {ifExists === 'userName' && !errors.userName && (
+          <span className={s.error}>User with this username is already registered</span>
+        )}
+        <ControlledTextField
+            className={s.form_input}
+            onInput={clearInput}
+            control={control}
+            error={errors.email?.message}
+            label={'Email'}
+            name={'email'}
+            placeholder={'Email'}
+          />
+                  {ifExists === 'email' && !errors.email && (
+          <span className={s.error}>User with this email is already registered</span>
+        )}
+        <ControlledTextField
+          className={s.form_input}
+          control={control}
+          error={errors.password?.message}
+          label={'Password'}
+          name={'password'}
+          placeholder={'Password'}
+          type={'password'}
+        />
+        <ControlledTextField
+          className={`${s.form_input} ${s.confirm}`}
+          control={control}
+          error={errors.confirmPassword?.message}
+          label={'Password confirmation'}
+          name={'confirmPassword'}
+          placeholder={'Password confirmation'}
+          type={'password'}
+        />
+        <div className={s.checkboxContainer}>
+          <Checkbox checked={value} name="agreeToTerms" position='left' id='agreeToTerms' label='I agree to the' onCheckedChange={onChange}/>
+            <Link className={s.policy} href={'/termsOfService'}>
+            Terms of Service
+          </Link>{' '}
+          and{' '}
+          <Link className={s.policy} href={'/privacyPolicy'}>
+            Privacy Policy
+          </Link>
+        </div>
+        <Button className={s.confirm} disabled={!isValid || !agreeToTerms} fullWidth type={'submit'}>
+        {isLoading ? 'Sending data...' : 'Sign Up'}
+        </Button>
+        
+      </form>
+
+      {/* <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor={'username'}>UserName</label>
         <input id={'username'} {...register('userName')} onInput={clearInput} type={'text'} />
         {errors.userName && <span className={s.error}>{errors.userName.message}</span>}
@@ -124,7 +193,8 @@ export function RegistrationForm() {
           Sign Up
         </Button>
         {isLoading && <p>Sending data...</p>}
-      </form>
+      </form> */}
+
       <Typography className={s.text} variant={'regular-text-16'}>
         Do you have an account?
       </Typography>
