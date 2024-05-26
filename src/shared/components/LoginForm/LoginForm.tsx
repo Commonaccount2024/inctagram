@@ -6,7 +6,7 @@ import { LoginParams } from '@/feature/auth/api/auth.types'
 import { useLoginMutation } from '@/feature/auth/api/authApi'
 import { setUser } from '@/feature/auth/api/authSlice'
 import { OAuth } from '@/feature/oAuth/oAuth'
-import { Button, Card, Typography } from '@commonaccount2024/inctagram-ui-kit'
+import { Button, Typography, Card } from '@commonaccount2024/inctagram-ui-kit'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 

@@ -5,14 +5,16 @@ import { toast } from 'react-toastify'
 import { SendEmailRequestBody } from '@/feature/auth/api/auth.types'
 import { useSendEmailMutation } from '@/feature/auth/api/authApi'
 import { useRouterLocaleDefination } from '@/shared/hooks/useRouterLocaleDefination'
+import { Button, Card, Typography } from '@commonaccount2024/inctagram-ui-kit'
 import { authHandleError } from '@/shared/utils/authHandleError'
-import { Button } from '@commonaccount2024/inctagram-ui-kit'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 
-import styles from './SignUpForm.module.scss'
+import s from './SignUpForm.module.scss'
+
 
 import { SignUpFormFields, signUpSchema } from './signUpSchema'
+import { OAuth } from '@/feature/oAuth/oAuth'
 
 const notify = {
   errorRegistrationEmail: function (err: unknown) {
@@ -78,60 +80,59 @@ export function RegistrationForm() {
   }
 
   return (
-    <>
-      <h1 className={styles.title}>{routerLocale.signUpPage.title}</h1>
-      <div className={styles.row}>
-        <Link href={'https://www.google.com'} rel={'noopener noreferrer'} target={'_blank'}>
-          Google
-        </Link>
-        <Link href={'https://www.github.com'} rel={'noopener noreferrer'} target={'_blank'}>
-          GitHub
-        </Link>
-      </div>
+    <Card className={s.div}>
+      <Typography className={s.title} variant={'h1'}>
+        {routerLocale.signUpPage.title}
+      </Typography>
+      <OAuth />
 
-      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+      <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor={'username'}>UserName</label>
         <input id={'username'} {...register('userName')} onInput={clearInput} type={'text'} />
-        {errors.userName && <span className={styles.error}>{errors.userName.message}</span>}
+        {errors.userName && <span className={s.error}>{errors.userName.message}</span>}
         {ifExists === 'userName' && !errors.userName && (
-          <span className={styles.error}>User with this username is already registered</span>
+          <span className={s.error}>User with this username is already registered</span>
         )}
         <label htmlFor={'email'}>Email</label>
         <input id={'email'} {...register('email')} onInput={clearInput} type={'text'} />
-        {errors.email && <span className={styles.error}>{errors.email.message}</span>}
+        {errors.email && <span className={s.error}>{errors.email.message}</span>}
         {ifExists === 'email' && !errors.email && (
-          <span className={styles.error}>User with this email is already registered</span>
+          <span className={s.error}>User with this email is already registered</span>
         )}
         <label htmlFor={'password'}>Password</label>
         <input id={'password'} {...register('password')} type={'password'} />
-        {errors.password && <span className={styles.error}>{errors.password.message}</span>}
+        {errors.password && <span className={s.error}>{errors.password.message}</span>}
         <label htmlFor={'confirmPassword'}>Password confirmation</label>
         <input id={'passwordConfirmation'} {...register('confirmPassword')} type={'password'} />
         {errors.confirmPassword && (
-          <span className={styles.error}>{errors.confirmPassword.message}</span>
+          <span className={s.error}>{errors.confirmPassword.message}</span>
         )}
-        <div className={styles.row}>
+        <div className={s.row}>
           <input id={'agreeToTerms'} type={'checkbox'} {...register('agreeToTerms')} />
           <label htmlFor={'agreeToTerms'}>I agree to the </label>
-          <Link className={styles.policy} href={'/termsOfService'}>
+          <Link className={s.policy} href={'/termsOfService'}>
             Terms of Service
           </Link>{' '}
           and{' '}
-          <Link className={styles.policy} href={'/privacyPolicy'}>
+          <Link className={s.policy} href={'/privacyPolicy'}>
             Privacy Policy
           </Link>
         </div>
 
-        {errors.agreeToTerms && <span className={styles.error}>{errors.agreeToTerms.message}</span>}
+        {errors.agreeToTerms && <span className={s.error}>{errors.agreeToTerms.message}</span>}
         <Button disabled={!isValid || !agreeToTerms} type={'submit'}>
           Sign Up
         </Button>
         {isLoading && <p>Sending data...</p>}
       </form>
-      <div className={styles.row}>
-        <p>Do you have an account?</p>
-        <Link href={'/signIn'}>Sign In</Link>
-      </div>
-    </>
+      <Typography className={s.text} variant={'regular-text-16'}>
+        Do you have an account?
+      </Typography>
+      <Link className={s.signInLink} href={'/signIn'}>
+        <Typography className={s.signIn} variant={'regular-text-16'}>
+          Sign In
+        </Typography>
+      </Link>
+    </Card>
   )
 }

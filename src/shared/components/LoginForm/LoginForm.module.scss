@@ -5,30 +5,37 @@
   align-items: center;
   padding: 23px;
 }
+
 .title {
   margin-bottom: 13px;
 }
+
 .form {
   margin-top: 24px;
 }
+
 .error {
-  color: var(--Danger-500);
   max-width: 330px;
+  color: var(--Danger-500);
 }
+
 .inputPassword {
-  margin-top: 24px;
   width: 330px;
+  margin-top: 24px;
 }
+
 .forgotPassword {
-  color: var(--Light-900);
-  text-align: end;
   margin-top: 36px;
   margin-bottom: 24px;
+  color: var(--Light-900);
+  text-align: end;
 }
+
 .text {
   margin: 18px;
   color: var(--Light-100);
 }
+
 .signUp {
   font-weight: 600;
   color: var(--Primary-500);

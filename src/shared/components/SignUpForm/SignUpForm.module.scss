@@ -1,5 +1,13 @@
+.div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 23px;
+}
+
 .error {
-  color: red;
+  color: var(--Danger-500);
 }
 
 .policy {
@@ -12,11 +20,12 @@
 }
 
 .title {
-  font-size: 20px;
-  font-weight: 700;
-  font-style: normal;
-  line-height: 36px;
-  text-align: center;
+  margin-bottom: 13px;
+}
+
+.signIn {
+  font-weight: 600;
+  color: var(--Primary-500);
 }
 
 .form {
