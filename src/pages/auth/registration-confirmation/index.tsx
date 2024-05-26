@@ -1,7 +1,4 @@
 import React, { useEffect } from 'react'
-import s from './registration-confirmation.module.scss';
-import successImg from '@/shared/assets/img/registr_confirm_ok.png'
-import failImg from '@/shared/assets/img/registr_confirm_fail.png'
 import { toast } from 'react-toastify'
 
 import { ResendEmailRequestBody } from '@/feature/auth/api/auth.types'
@@ -9,18 +6,21 @@ import {
   useResendEmailMutation,
   useVerifyConfirmationCodeMutation,
 } from '@/feature/auth/api/authApi'
+import failImg from '@/shared/assets/img/registr_confirm_fail.png'
+import successImg from '@/shared/assets/img/registr_confirm_ok.png'
 import { HeadMeta } from '@/shared/components/headMeta/HeadMeta'
 import { authHandleError } from '@/shared/utils/authHandleError'
 import { Button, Typography } from '@commonaccount2024/inctagram-ui-kit'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import Image from 'next/image'
+
+import s from './registration-confirmation.module.scss'
 
 export default function RegistrationConfirmation() {
   const [verifyConfirmationCode, { error: verifyCodeError, isSuccess }] =
     useVerifyConfirmationCodeMutation()
-  const [resendEmail, {isLoading: isResending }] =
-    useResendEmailMutation()
+  const [resendEmail, { isLoading: isResending }] = useResendEmailMutation()
   const errorAuthHandle = authHandleError()
 
   const router = useRouter()
@@ -69,32 +69,37 @@ export default function RegistrationConfirmation() {
       <HeadMeta title={'registration-confirmation'} />
       {verifyCodeError && (
         <>
-          <Typography className={s.titleExpired} variant='h1'>Email verification link expired</Typography>
-          <Typography className={s.textExpired} variant='regular-text-16'>
+          <Typography className={s.titleExpired} variant={'h1'}>
+            Email verification link expired
+          </Typography>
+          <Typography className={s.textExpired} variant={'regular-text-16'}>
             Looks like the verification link has expired. Not to worry, we can send the link again
           </Typography>
-          <Button className={s.buttonResend} onClick={onResendCode} type={'button'} variant='primary'>
+          <Button
+            className={s.buttonResend}
+            onClick={onResendCode}
+            type={'button'}
+            variant={'primary'}
+          >
             {isResending ? 'sending...' : 'Resend verification link'}
           </Button>
-          <Image
-            src={failImg}  
-            alt={`Picture of resend fail`}  
-            placeholder='blur'
-          />
+          <Image alt={`Picture of resend fail`} placeholder={'blur'} src={failImg} />
         </>
       )}
       {isSuccess && (
         <>
-          <Typography className={s.title} variant='h1'>Congratulations!</Typography>
-          <Typography className={s.text} variant='regular-text-16'>Your email has been confirmed</Typography>
+          <Typography className={s.title} variant={'h1'}>
+            Congratulations!
+          </Typography>
+          <Typography className={s.text} variant={'regular-text-16'}>
+            Your email has been confirmed
+          </Typography>
           <Link href={'/signIn'}>
-            <Button className={s.button} variant='primary' type='button'>Sign In</Button>
+            <Button className={s.button} type={'button'} variant={'primary'}>
+              Sign In
+            </Button>
           </Link>
-          <Image
-            src={successImg}  
-            alt={`Picture of resend success`}  
-            placeholder='blur'
-          />
+          <Image alt={`Picture of resend success`} placeholder={'blur'} src={successImg} />
         </>
       )}
     </>

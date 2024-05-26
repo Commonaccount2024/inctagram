@@ -8,14 +8,13 @@
 
 .form {
   max-width: 380px;
-  
+
   &_input {
     width: 330px;
     margin-bottom: 24px;
-
   }
 
-  .confirm{
+  .confirm {
     margin-bottom: 12px;
   }
 
@@ -28,7 +27,7 @@
     text-decoration-line: underline;
   }
 
-  .checkboxContainer{
+  .checkboxContainer {
     display: flex;
     gap: 0 4px;
     align-items: center;
@@ -48,4 +47,3 @@
   font-weight: 600;
   color: var(--Primary-500);
 }
-

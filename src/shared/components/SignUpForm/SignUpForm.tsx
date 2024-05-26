@@ -4,18 +4,17 @@ import { toast } from 'react-toastify'
 
 import { SendEmailRequestBody } from '@/feature/auth/api/auth.types'
 import { useSendEmailMutation } from '@/feature/auth/api/authApi'
+import { OAuth } from '@/feature/oAuth/oAuth'
 import { useRouterLocaleDefination } from '@/shared/hooks/useRouterLocaleDefination'
-import { Button, Card, Checkbox, Typography } from '@commonaccount2024/inctagram-ui-kit'
 import { authHandleError } from '@/shared/utils/authHandleError'
+import { Button, Card, Checkbox, Typography } from '@commonaccount2024/inctagram-ui-kit'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 
 import s from './SignUpForm.module.scss'
 
-
-import { SignUpFormFields, signUpSchema } from './signUpSchema'
-import { OAuth } from '@/feature/oAuth/oAuth'
 import { ControlledTextField } from '../controlled/controlledTextField/controlledTextField'
+import { SignUpFormFields, signUpSchema } from './signUpSchema'
 
 const notify = {
   errorRegistrationEmail: function (err: unknown) {
@@ -32,10 +31,10 @@ export function RegistrationForm() {
   const handleError = authHandleError()
 
   const {
+    control,
     formState: { errors, isValid },
     handleSubmit,
     reset,
-    control,
     watch,
   } = useForm<SignUpFormFields>({
     defaultValues: {
@@ -49,13 +48,12 @@ export function RegistrationForm() {
   })
 
   const {
-    field: { value, onChange },
+    field: { onChange, value },
   } = useController({
-    name: 'agreeToTerms',
     control,
     defaultValue: false,
+    name: 'agreeToTerms',
   })
-
 
   const [sendMail, { isLoading }] = useSendEmailMutation()
   const agreeToTerms = watch('agreeToTerms')
@@ -98,27 +96,27 @@ export function RegistrationForm() {
 
       <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
         <ControlledTextField
-            onInput={clearInput}
-            className={s.form_input}
-            control={control}
-            error={errors.userName?.message}
-            label={'Username'}
-            name={'userName'}
-            placeholder={'Username'}
-          />
-          {ifExists === 'userName' && !errors.userName && (
+          className={s.form_input}
+          control={control}
+          error={errors.userName?.message}
+          label={'Username'}
+          name={'userName'}
+          onInput={clearInput}
+          placeholder={'Username'}
+        />
+        {ifExists === 'userName' && !errors.userName && (
           <span className={s.error}>User with this username is already registered</span>
         )}
         <ControlledTextField
-            className={s.form_input}
-            onInput={clearInput}
-            control={control}
-            error={errors.email?.message}
-            label={'Email'}
-            name={'email'}
-            placeholder={'Email'}
-          />
-                  {ifExists === 'email' && !errors.email && (
+          className={s.form_input}
+          control={control}
+          error={errors.email?.message}
+          label={'Email'}
+          name={'email'}
+          onInput={clearInput}
+          placeholder={'Email'}
+        />
+        {ifExists === 'email' && !errors.email && (
           <span className={s.error}>User with this email is already registered</span>
         )}
         <ControlledTextField
@@ -140,8 +138,15 @@ export function RegistrationForm() {
           type={'password'}
         />
         <div className={s.checkboxContainer}>
-          <Checkbox checked={value} name="agreeToTerms" position='left' id='agreeToTerms' label='I agree to the' onCheckedChange={onChange}/>
-            <Link className={s.policy} href={'/termsOfService'}>
+          <Checkbox
+            checked={value}
+            id={'agreeToTerms'}
+            label={'I agree to the'}
+            name={'agreeToTerms'}
+            onCheckedChange={onChange}
+            position={'left'}
+          />
+          <Link className={s.policy} href={'/termsOfService'}>
             Terms of Service
           </Link>{' '}
           and{' '}
@@ -149,10 +154,14 @@ export function RegistrationForm() {
             Privacy Policy
           </Link>
         </div>
-        <Button className={s.confirm} disabled={!isValid || !agreeToTerms} fullWidth type={'submit'}>
-        {isLoading ? 'Sending data...' : 'Sign Up'}
+        <Button
+          className={s.confirm}
+          disabled={!isValid || !agreeToTerms}
+          fullWidth
+          type={'submit'}
+        >
+          {isLoading ? 'Sending data...' : 'Sign Up'}
         </Button>
-        
       </form>
 
       {/* <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
