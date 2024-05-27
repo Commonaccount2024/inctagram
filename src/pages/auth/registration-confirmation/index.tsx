@@ -6,8 +6,8 @@ import {
   useResendEmailMutation,
   useVerifyConfirmationCodeMutation,
 } from '@/feature/auth/api/authApi'
-import failImg from '@/shared/assets/img/registr_confirm_fail.png'
-import successImg from '@/shared/assets/img/registr_confirm_ok.png'
+import LinkConfirmFail from '@/shared/assets/img/LinkConfirmFail'
+import LinkConfrimOK from '@/shared/assets/img/LinkConfrimOK'
 import { HeadMeta } from '@/shared/components/headMeta/HeadMeta'
 import { authHandleError } from '@/shared/utils/authHandleError'
 import { Button, Typography } from '@commonaccount2024/inctagram-ui-kit'
@@ -83,7 +83,7 @@ export default function RegistrationConfirmation() {
           >
             {isResending ? 'sending...' : 'Resend verification link'}
           </Button>
-          <Image alt={`Picture of resend fail`} placeholder={'blur'} src={failImg} />
+          <LinkConfirmFail />
         </>
       )}
       {isSuccess && (
@@ -99,7 +99,7 @@ export default function RegistrationConfirmation() {
               Sign In
             </Button>
           </Link>
-          <Image alt={`Picture of resend success`} placeholder={'blur'} src={successImg} />
+          <LinkConfrimOK />
         </>
       )}
     </>
