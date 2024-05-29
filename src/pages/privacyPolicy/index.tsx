@@ -6,19 +6,19 @@ import Link from 'next/link'
 
 import s from './privacyPolicy.module.scss'
 
-export default function TermsOfService() {
+export default function PrivacyPolicy() {
   const routerLocale = useRouterLocaleDefination()
 
   return (
     <>
-      <HeadMeta title={routerLocale.passwordRecoveryPage.title} />
+      <HeadMeta title={routerLocale.privacyPolicy.title} />
       <div className={s.wrapper}>
         <div className={s.wrapLinkTop}>
           <LeftArrowTerms />
-          <Link href={'/signUp'}>Back to Sign Up</Link>
+          <Link href={'/signUp'}>{routerLocale.privacyPolicy.backToSign}</Link>
         </div>
         <Typography className={s.title} variant={'h1'}>
-          Privacy Policy
+          {routerLocale.privacyPolicy.title}
         </Typography>
         <div className={s.textWrapper}>
           <p>

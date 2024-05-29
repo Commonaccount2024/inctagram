@@ -164,46 +164,6 @@ export function RegistrationForm() {
         </Button>
       </form>
 
-      {/* <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
-        <label htmlFor={'username'}>UserName</label>
-        <input id={'username'} {...register('userName')} onInput={clearInput} type={'text'} />
-        {errors.userName && <span className={s.error}>{errors.userName.message}</span>}
-        {ifExists === 'userName' && !errors.userName && (
-          <span className={s.error}>User with this username is already registered</span>
-        )}
-        <label htmlFor={'email'}>Email</label>
-        <input id={'email'} {...register('email')} onInput={clearInput} type={'text'} />
-        {errors.email && <span className={s.error}>{errors.email.message}</span>}
-        {ifExists === 'email' && !errors.email && (
-          <span className={s.error}>User with this email is already registered</span>
-        )}
-        <label htmlFor={'password'}>Password</label>
-        <input id={'password'} {...register('password')} type={'password'} />
-        {errors.password && <span className={s.error}>{errors.password.message}</span>}
-        <label htmlFor={'confirmPassword'}>Password confirmation</label>
-        <input id={'passwordConfirmation'} {...register('confirmPassword')} type={'password'} />
-        {errors.confirmPassword && (
-          <span className={s.error}>{errors.confirmPassword.message}</span>
-        )}
-        <div className={s.row}>
-          <input id={'agreeToTerms'} type={'checkbox'} {...register('agreeToTerms')} />
-          <label htmlFor={'agreeToTerms'}>I agree to the </label>
-          <Link className={s.policy} href={'/termsOfService'}>
-            Terms of Service
-          </Link>{' '}
-          and{' '}
-          <Link className={s.policy} href={'/privacyPolicy'}>
-            Privacy Policy
-          </Link>
-        </div>
-
-        {errors.agreeToTerms && <span className={s.error}>{errors.agreeToTerms.message}</span>}
-        <Button disabled={!isValid || !agreeToTerms} type={'submit'}>
-          Sign Up
-        </Button>
-        {isLoading && <p>Sending data...</p>}
-      </form> */}
-
       <Typography className={s.text} variant={'regular-text-16'}>
         Do you have an account?
       </Typography>

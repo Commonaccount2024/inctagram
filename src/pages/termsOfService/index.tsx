@@ -11,14 +11,14 @@ export default function TermsOfService() {
 
   return (
     <>
-      <HeadMeta title={routerLocale.passwordRecoveryPage.title} />
+      <HeadMeta title={routerLocale.termsOfService.title} />
       <div className={s.wrapper}>
         <div className={s.wrapLinkTop}>
           <LeftArrowTerms />
-          <Link href={'/signUp'}>Back to Sign Up</Link>
+          <Link href={'/signUp'}>{routerLocale.termsOfService.backToSign}</Link>
         </div>
         <Typography className={s.title} variant={'h1'}>
-          Terms of Service
+          {routerLocale.termsOfService.title}
         </Typography>
         <div className={s.textWrapper}>
           <p>
