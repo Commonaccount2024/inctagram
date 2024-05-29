@@ -11,7 +11,7 @@
     "lint": "eslint src --ext .jsx,.js,.tsx,.ts  --no-error-on-unmatched-pattern --fix && stylelint --fix src/{,*/}*.{scss,css} --allow-empty-input"
   },
   "dependencies": {
-    "@commonaccount2024/inctagram-ui-kit": "^0.0.10",
+    "@commonaccount2024/inctagram-ui-kit": "^0.0.11",
     "@hookform/resolvers": "^3.4.2",
     "@reduxjs/toolkit": "^2.2.5",
     "@types/react-google-recaptcha": "^2.1.9",

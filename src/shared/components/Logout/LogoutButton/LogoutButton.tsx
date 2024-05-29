@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '@/application/store'
 import { useLogoutMutation } from '@/feature/auth/api/authApi'
 import { selectUserEmail } from '@/feature/auth/api/authSlice'
+import { Button } from '@commonaccount2024/inctagram-ui-kit'
 import { useRouter } from 'next/router'
 
 import { LogoutModal } from '../LogoutModal/LogoutModal'
@@ -47,9 +48,9 @@ export const LogoutButton = () => {
 
   return (
     <div>
-      <button disabled={isLoading} onClick={handleLogoutClick}>
+      <Button disabled={isLoading} onClick={handleLogoutClick} variant={'primary'}>
         Log out
-      </button>
+      </Button>
       {error && <p>{error}</p>}
       <LogoutModal
         email={email || ''}
