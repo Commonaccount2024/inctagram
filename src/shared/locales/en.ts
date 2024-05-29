@@ -24,6 +24,5 @@ export const en: LocaleType = {
     backToSign: 'Back to Sign Up',
     title: 'Terms of Service',
   },
-  test: 'Main page',
   title: 'Main page',
 }

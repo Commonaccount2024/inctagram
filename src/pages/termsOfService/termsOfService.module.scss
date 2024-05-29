@@ -1,5 +1,6 @@
 .wrapper {
   position: relative;
+  width: 100%;
   padding: 71px 161px 227px;
   text-align: center;
 
@@ -17,6 +18,6 @@
   }
 
   .textWrapper {
-    width: 958px;
+    max-width: 958px;
   }
 }
