@@ -14,11 +14,11 @@ import {
 export const authApi = baseApi.injectEndpoints({
   endpoints: builder => ({
     createPassword: builder.mutation<void, NewPasswordParams>({
-      query: ({ newPassword, passwordConfirmation }) => {
+      query: ({ newPassword, recoveryCode }) => {
         return {
           body: {
             newPassword,
-            passwordConfirmation,
+            recoveryCode,
           },
           method: 'POST',
           url: '/v1/auth/new-password',
