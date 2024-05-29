@@ -1,5 +1,6 @@
 import { HeadMeta } from '@/shared/components/headMeta/HeadMeta'
 import { useRouterLocaleDefination } from '@/shared/hooks/useRouterLocaleDefination'
+import { Typography } from '@commonaccount2024/inctagram-ui-kit'
 import Link from 'next/link'
 
 export default function TermsOfService() {
@@ -8,8 +9,10 @@ export default function TermsOfService() {
   return (
     <>
       <HeadMeta title={routerLocale.passwordRecoveryPage.title} />
-      <Link href={'/signUp'}>Back to Sign Up</Link>
-      <h1>Terms of Service</h1>
+      <div>
+        <Link href={'/signUp'}>Back to Sign Up</Link>
+      </div>
+      <Typography variant='h1'>Terms of Service</Typography>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
         labore et dolore magna aliqua. Fames ac turpis egestas integer eget aliquet nibh. Amet
