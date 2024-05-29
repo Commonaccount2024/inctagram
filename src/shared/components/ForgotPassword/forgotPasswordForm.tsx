@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-named-as-default
 import ReCAPTCHA from 'react-google-recaptcha'
-import { SubmitHandler, useForm, useFormState } from 'react-hook-form'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
 import { useRecoverPasswordMutation } from '@/feature/auth/api/authApi'
