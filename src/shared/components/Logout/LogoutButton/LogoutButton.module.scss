@@ -1,14 +1,13 @@
 .logout {
+  color: var(--Light-100);
+  &:hover:enabled {
     color: var(--Light-100);
-    &:hover:enabled {
-        color: var(--Light-100);
-    }
-    &::active:enabled {
-        color: var(--Light-100);
-    }
-    &:focus-visible:enabled {
-        color: var(--Light-100);
-        border: 2px solid var(--Light-100);
-      }
+  }
+  &::active:enabled {
+    color: var(--Light-100);
+  }
+  &:focus-visible:enabled {
+    color: var(--Light-100);
+    border: 2px solid var(--Light-100);
+  }
 }
-
