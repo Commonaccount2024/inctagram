@@ -4,8 +4,11 @@ import { useSelector } from 'react-redux'
 import { RootState } from '@/application/store'
 import { useLogoutMutation } from '@/feature/auth/api/authApi'
 import { selectUserEmail } from '@/feature/auth/api/authSlice'
+import { LogoutIcon } from '@/shared/assets/icons/LogoutSvg'
 import { Button } from '@commonaccount2024/inctagram-ui-kit'
 import { useRouter } from 'next/router'
+
+import s from '../LogoutButton/LogoutButton.module.scss'
 
 import { LogoutModal } from '../LogoutModal/LogoutModal'
 interface LogoutError {
@@ -48,7 +51,13 @@ export const LogoutButton = () => {
 
   return (
     <div>
-      <Button disabled={isLoading} onClick={handleLogoutClick} variant={'primary'}>
+      <Button
+        className={s.logout}
+        disabled={isLoading}
+        onClick={handleLogoutClick}
+        variant={'text-button'}
+      >
+        <LogoutIcon />
         Log out
       </Button>
       {error && <p>{error}</p>}
