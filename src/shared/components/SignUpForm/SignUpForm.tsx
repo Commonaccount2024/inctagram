@@ -15,6 +15,7 @@ import s from './SignUpForm.module.scss'
 
 import { ControlledTextField } from '../controlled/controlledTextField/controlledTextField'
 import { SignUpFormFields, signUpSchema } from './signUpSchema'
+import { SignUpModal } from './SignUpModal/SignUpModal'
 
 const notify = {
   errorRegistrationEmail: function (err: unknown) {
@@ -26,6 +27,7 @@ const notify = {
 }
 
 export function RegistrationForm() {
+  const [isModalOpen, setIsModalOpen] = useState(true)
   const routerLocale = useRouterLocaleDefination()
   const [ifExists, setIfExists] = useState('')
   const handleError = authHandleError()
@@ -60,6 +62,8 @@ export function RegistrationForm() {
 
   const clearInput = () => setIfExists('')
 
+  const onModalClose = () => setIsModalOpen(prev => !prev);
+
   const onSubmit: SubmitHandler<SignUpFormFields> = async data => {
     clearInput()
 
@@ -72,8 +76,8 @@ export function RegistrationForm() {
       }
 
       await sendMail(requestBody).unwrap()
-      reset()
       notify.successSendEmail(data.email)
+      reset()
     } catch (err) {
       const errorData = handleError(err)
 
@@ -88,7 +92,8 @@ export function RegistrationForm() {
   }
 
   return (
-    <Card className={s.div}>
+    <>
+  <Card className={s.div}>
       <Typography className={s.title} variant={'h1'}>
         {routerLocale.signUpPage.title}
       </Typography>
@@ -173,5 +178,8 @@ export function RegistrationForm() {
         </Typography>
       </Link>
     </Card>
+    
+    {/* {isModalOpen && <SignUpModal email={'some email @ com'} isOpen={isModalOpen} onClose={onModalClose} />} */}
+    </>
   )
 }
