@@ -1,0 +1,23 @@
+.wrapper {
+  position: relative;
+  width: 100%;
+  padding: 71px 161px 227px;
+  text-align: center;
+
+  .title {
+    margin-bottom: 20px;
+  }
+
+  .wrapLinkTop {
+    position: absolute;
+    top: 24px;
+    left: 64px;
+
+    display: flex;
+    gap: 0 12px;
+  }
+
+  .textWrapper {
+    max-width: 958px;
+  }
+}
