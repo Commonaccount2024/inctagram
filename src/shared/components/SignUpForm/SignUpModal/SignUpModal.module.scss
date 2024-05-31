@@ -7,4 +7,11 @@
   gap: 24px;
   justify-content: flex-end;
   margin: 30px 24px 36px 0;
+
+  & button {
+    width: 90px;
+    height: 36px;
+    text-transform: uppercase;
+    border-radius: 2px;
+  }
 }
