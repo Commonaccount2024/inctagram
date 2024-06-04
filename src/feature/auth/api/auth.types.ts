@@ -30,10 +30,10 @@ export type ResendEmailRequestBody = Pick<SendEmailRequestBody, 'baseUrl' | 'ema
 
 export type NewPasswordParams = {
   newPassword: string
-  passwordConfirmation: string
+  recoveryCode?: string
 }
 
 export type ForgotPasswordParams = {
   email: string
-  recaptcha: null | string
+  recaptcha?: string | undefined
 }

@@ -8,7 +8,7 @@ export const NavBar = () => {
 
   return (
     <div className={s.navBar}>
-      <Link href={'/'}>{routerLocale.test}</Link>
+      <Link href={'/'}>{routerLocale.title}</Link>
       <Link href={'/signUp'}>{routerLocale.signUpPage.title}</Link>
       <Link href={'/signIn'}>{routerLocale.signInPage.title}</Link>
       <Link href={'/passwordRecovery'}>{routerLocale.passwordRecoveryPage.title}</Link>

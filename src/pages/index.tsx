@@ -59,7 +59,7 @@ export default function Home() {
   return (
     <>
       <HeadMeta title={routerLocale.title} />
-      <h1 style={{ marginBottom: 30 }}>{routerLocale.test}</h1>
+      <h1 style={{ marginBottom: 30 }}>{routerLocale.title}</h1>
 
       <form className={s.form} onSubmit={handleSubmit(() => {})}>
         <ControlledTextField
