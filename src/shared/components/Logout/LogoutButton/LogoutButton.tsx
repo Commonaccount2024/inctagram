@@ -50,7 +50,7 @@ export const LogoutButton = () => {
   }
 
   return (
-    <div>
+    <>
       <Button
         className={s.logout}
         disabled={isLoading}
@@ -67,6 +67,6 @@ export const LogoutButton = () => {
         onClose={handleCloseModal}
         onConfirm={handleConfirmLogout}
       />
-    </div>
+    </>
   )
 }
