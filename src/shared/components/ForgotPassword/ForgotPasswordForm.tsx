@@ -1,22 +1,26 @@
+import { useState } from 'react'
 // eslint-disable-next-line import/no-named-as-default
 import ReCAPTCHA from 'react-google-recaptcha'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
 import { useRecoverPasswordMutation } from '@/feature/auth/api/authApi'
+import { ForgotPasswordModal } from '@/shared/components/ForgotPassword/ForgotPasswordModal/ForgotPasswordModal'
 import {
   ForgotPasswordSchemaParams,
   forgotPasswordSchema,
 } from '@/shared/components/ForgotPassword/forgotPasswordSchema'
 import { ControlledTextField } from '@/shared/components/controlled/controlledTextField/controlledTextField'
-import { Button, Card } from '@commonaccount2024/inctagram-ui-kit'
+import { Button, Card, Typography } from '@commonaccount2024/inctagram-ui-kit'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 
-import s from './forgotPasswordForm.module.scss'
+import s from './ForgotPasswordForm.module.scss'
 
 export default function ForgotPasswordForm() {
   const [recoverPassword, { isLoading }] = useRecoverPasswordMutation()
+  const [isOpen, setIsOpen] = useState(false)
+  const [submittedEmail, setSubmittedEmail] = useState('')
 
   const {
     control,
@@ -33,9 +37,10 @@ export default function ForgotPasswordForm() {
   })
 
   const onSubmit: SubmitHandler<ForgotPasswordSchemaParams> = async data => {
+    setSubmittedEmail(data.email)
+    setIsOpen(true)
     try {
       await recoverPassword(data).unwrap()
-      toast.success('The message was sent to the email')
       reset()
     } catch (e) {
       if (e instanceof Error) {
@@ -50,9 +55,15 @@ export default function ForgotPasswordForm() {
     setValue('recaptcha', recaptchaValue || '', { shouldValidate: true })
   }
 
+  const handleModal = () => {
+    setIsOpen(false)
+  }
+
   return (
     <Card className={s.card}>
-      <h2 className={s.title}>Forgot Password</h2>
+      <Typography className={s.title} variant={'h1'}>
+        Forgot Password
+      </Typography>
       <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
         <ControlledTextField
           className={s.textField}
@@ -63,16 +74,17 @@ export default function ForgotPasswordForm() {
           placeholder={'Epam@epam.com'}
           required
         />
-        <p className={s.instruction}>
+        <Typography className={s.instruction} variant={'regular-text-14'}>
           Enter your email address and we will send you further instructions
-        </p>
+        </Typography>
         <Button className={s.submitButton} disabled={isLoading} fullWidth type={'submit'}>
           Send Link
         </Button>
-
-        <Link className={s.backToSignIn} href={`${process.env.NEXT_PUBLIC_BASE_URL}`}>
-          {'Back to Sign In'}
-        </Link>
+        <Button className={s.backToSignIn} type={'button'} variant={'text-button'}>
+          <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/signIn`}>
+            <Typography variant={'h3'}>Back to Sign In</Typography>
+          </Link>
+        </Button>
 
         <ReCAPTCHA
           aria-required
@@ -82,8 +94,18 @@ export default function ForgotPasswordForm() {
           size={'normal'}
           theme={'dark'}
         />
-        {errors.recaptcha && <p className={s.error}>{errors.recaptcha.message}</p>}
+        {errors.recaptcha && (
+          <Typography className={s.error} variant={'regular-text-14'}>
+            {errors.recaptcha.message}
+          </Typography>
+        )}
       </form>
+      <ForgotPasswordModal
+        email={submittedEmail}
+        handleModal={handleModal}
+        isOpen={isOpen}
+        title={'Email sent'}
+      />
     </Card>
   )
 }
