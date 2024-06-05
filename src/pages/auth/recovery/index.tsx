@@ -1,4 +1,4 @@
-import CreatePassword from '@/shared/components/CreatePassword/createPassword'
+import CreatePassword from '@/shared/components/CreatePassword/CreatePassword'
 import { HeadMeta } from '@/shared/components/headMeta/HeadMeta'
 import { useRouterLocaleDefination } from '@/shared/hooks/useRouterLocaleDefination'
 
