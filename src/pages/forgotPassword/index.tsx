@@ -1,4 +1,4 @@
-import ForgotPasswordForm from '@/shared/components/ForgotPassword/forgotPasswordForm'
+import ForgotPasswordForm from '@/shared/components/ForgotPassword/ForgotPasswordForm'
 import { HeadMeta } from '@/shared/components/headMeta/HeadMeta'
 import { useRouterLocaleDefination } from '@/shared/hooks/useRouterLocaleDefination'
 
