@@ -19,6 +19,7 @@ export const ForgotPasswordModal = ({ email, handleModal, isOpen, title }: Props
         <div className={s.buttonWrapper}>
           <Button
             className={s.button}
+            fullWidth
             onClick={handleModal}
             title={'Close'}
             type={'button'}
