@@ -13,7 +13,6 @@ import Link from 'next/link'
 
 import s from './SignUpForm.module.scss'
 
-import { LogoutModal } from '../Logout/LogoutModal/LogoutModal'
 import { ControlledTextField } from '../controlled/controlledTextField/controlledTextField'
 import { SignUpModal } from './SignUpModal/SignUpModal'
 import { SignUpFormFields, signUpSchema } from './signUpSchema'
@@ -22,14 +21,12 @@ const notify = {
   errorRegistrationEmail: function (err: unknown) {
     toast.error(`Unexpected error during registration: ${err}`)
   },
-  successSendEmail: function (userEmail: string) {
-    toast.success(`We have sent a link to confirm your email to ${userEmail}`)
-  },
 }
 
 export function RegistrationForm() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [ifExists, setIfExists] = useState('')
+  const [userEmail, setUserEmail] = useState('')
   const routerLocale = useRouterLocaleDefination()
   const handleError = authHandleError()
 
@@ -61,7 +58,10 @@ export function RegistrationForm() {
   const [sendMail, { isLoading }] = useSendEmailMutation()
   const agreeToTerms = watch('agreeToTerms')
 
-  const clearInput = () => setIfExists('')
+  const clearInput = () => {
+    setIfExists('')
+    setUserEmail('')
+  }
 
   const onModalClose = () => setIsModalOpen(prev => !prev)
 
@@ -77,7 +77,8 @@ export function RegistrationForm() {
       }
 
       await sendMail(requestBody).unwrap()
-      notify.successSendEmail(data.email)
+      setIsModalOpen(true)
+      setUserEmail(data.email)
       reset()
     } catch (err) {
       const errorData = handleError(err)
@@ -182,7 +183,9 @@ export function RegistrationForm() {
         </Card>
       )}
 
-      <SignUpModal email={'some email @ com'} isOpen={isModalOpen} onClose={onModalClose} />
+      {isModalOpen && (
+        <SignUpModal email={userEmail ?? ''} isOpen={isModalOpen} onClose={onModalClose} />
+      )}
     </>
   )
 }
