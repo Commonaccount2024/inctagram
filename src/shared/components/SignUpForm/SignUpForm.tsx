@@ -20,13 +20,13 @@ import { SignUpFormFields, signUpSchema } from './signUpSchema'
 const notify = {
   errorRegistrationEmail: function (err: unknown) {
     toast.error(`Unexpected error during registration: ${err}`)
-  }
+  },
 }
 
 export function RegistrationForm() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [ifExists, setIfExists] = useState('')
-  const [userEmail, setUserEmail] = useState('');
+  const [userEmail, setUserEmail] = useState('')
   const routerLocale = useRouterLocaleDefination()
   const handleError = authHandleError()
 
@@ -58,10 +58,9 @@ export function RegistrationForm() {
   const [sendMail, { isLoading }] = useSendEmailMutation()
   const agreeToTerms = watch('agreeToTerms')
 
-
   const clearInput = () => {
     setIfExists('')
-    setUserEmail('');
+    setUserEmail('')
   }
 
   const onModalClose = () => setIsModalOpen(prev => !prev)
@@ -78,8 +77,8 @@ export function RegistrationForm() {
       }
 
       await sendMail(requestBody).unwrap()
-      setIsModalOpen(true);
-      setUserEmail(data.email);
+      setIsModalOpen(true)
+      setUserEmail(data.email)
       reset()
     } catch (err) {
       const errorData = handleError(err)
@@ -184,7 +183,9 @@ export function RegistrationForm() {
         </Card>
       )}
 
-      {isModalOpen && <SignUpModal email={userEmail ?? ''} isOpen={isModalOpen} onClose={onModalClose} />}
+      {isModalOpen && (
+        <SignUpModal email={userEmail ?? ''} isOpen={isModalOpen} onClose={onModalClose} />
+      )}
     </>
   )
 }
