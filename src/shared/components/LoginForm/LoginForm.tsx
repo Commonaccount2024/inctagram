@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 
@@ -19,6 +19,7 @@ const LoginForm = () => {
     control,
     formState: { errors },
     handleSubmit,
+    trigger,
   } = useForm<LoginParams>({
     defaultValues: {
       email: '',
@@ -41,6 +42,24 @@ const LoginForm = () => {
       setError('The email or password are incorrect. Try again please')
     }
   }
+  const handleClickOutside = useCallback(
+    async (event: MouseEvent) => {
+      const form = document.querySelector(`.${s.form}`)
+
+      if (form && !form.contains(event.target as Node)) {
+        await trigger()
+      }
+    },
+    [trigger]
+  )
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [handleClickOutside])
 
   return (
     <Card className={s.div}>
