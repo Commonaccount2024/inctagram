@@ -5,10 +5,10 @@ export const newPasswordSchema = object({
     .min(6, 'Minimum number of characters 6')
     .max(20, 'Maximum number of characters 20')
     .regex(
-      /^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~])[0-9A-ZaZ!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]+$/,
+      /^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]).*$/,
       `Password must contain 0-9, a-z, A-Z, and special characters`
     ),
-  passwordConfirmation: string().min(1, "Password confirmation can't be empty"),
+  passwordConfirmation: string(),
 }).refine(data => data.newPassword === data.passwordConfirmation, {
   message: 'The passwords must match',
   path: ['passwordConfirmation'],
