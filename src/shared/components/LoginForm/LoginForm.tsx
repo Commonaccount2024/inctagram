@@ -7,17 +7,20 @@ import { useLoginMutation } from '@/feature/auth/api/authApi'
 import { setUser } from '@/feature/auth/api/authSlice'
 import { OAuth } from '@/feature/oAuth/oAuth'
 import { Button, Card, Typography } from '@commonaccount2024/inctagram-ui-kit'
+import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { isValid } from 'zod'
 
 import s from './LoginForm.module.scss'
 
 import { ControlledTextField } from '../controlled/controlledTextField/controlledTextField'
+import { loginSchema } from './loginValidationSchema'
 
 const LoginForm = () => {
   const {
     control,
-    formState: { errors },
+    formState: { errors, isValid },
     handleSubmit,
     trigger,
   } = useForm<LoginParams>({
@@ -25,7 +28,9 @@ const LoginForm = () => {
       email: '',
       password: '',
     },
-    mode: 'onBlur',
+    mode: 'onChange',
+    reValidateMode: 'onChange',
+    resolver: zodResolver(loginSchema),
   })
   const router = useRouter()
   const dispatch = useDispatch()
@@ -98,7 +103,7 @@ const LoginForm = () => {
             Forgot Password
           </Typography>
         </Link>
-        <Button fullWidth type={'submit'}>
+        <Button disabled={!isValid} fullWidth type={'submit'}>
           Sign In
         </Button>
       </form>
