@@ -5,7 +5,7 @@ import { RootState } from '@/application/store'
 import { useLogoutMutation } from '@/feature/auth/api/authApi'
 import { selectUserEmail } from '@/feature/auth/api/authSlice'
 import { LogoutIcon } from '@/shared/assets/icons/LogoutSvg'
-import { Button } from '@commonaccount2024/inctagram-ui-kit'
+import { Button, Typography } from '@commonaccount2024/inctagram-ui-kit'
 import { useRouter } from 'next/router'
 
 import s from '../LogoutButton/LogoutButton.module.scss'
@@ -50,7 +50,7 @@ export const LogoutButton = () => {
   }
 
   return (
-    <div>
+    <>
       <Button
         className={s.logout}
         disabled={isLoading}
@@ -60,13 +60,17 @@ export const LogoutButton = () => {
         <LogoutIcon />
         Log out
       </Button>
-      {error && <p>{error}</p>}
+      {error && (
+        <Typography className={s.error} variant={'regular-text-14'}>
+          {error}
+        </Typography>
+      )}
       <LogoutModal
         email={email || ''}
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         onConfirm={handleConfirmLogout}
       />
-    </div>
+    </>
   )
 }
