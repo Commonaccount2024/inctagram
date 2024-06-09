@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 
 import { store } from '@/application/store'
+import { Header } from '@/shared/components/Header'
 import { Layout } from '@/shared/components/layout/Layout'
 import { Inter } from 'next/font/google'
 
@@ -31,6 +32,8 @@ export default function App({ Component, pageProps }: AppProps) {
           // autoClose={3000}
           // theme={'colored'}
         />
+
+        <Header />
         <Layout>
           <Component {...pageProps} />
         </Layout>

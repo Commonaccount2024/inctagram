@@ -1,0 +1,30 @@
+.langSelect {
+  width: 163px;
+  display: inline-block;
+  position: relative;
+  border: 1px solid var(--Dark-300);
+}
+
+.select {
+  width: 107px;
+  position: relative;
+  top: -3px;
+  left: 22px;
+  background-color: inherit;
+  border: none;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.flag {
+  display: inline-block;
+  position: relative;
+  top: 4px;
+  left: 10px;
+}
+
+.option {
+  background-color: var(--Dark-700);
+}

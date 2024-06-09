@@ -113,7 +113,9 @@ export function RegistrationForm() {
               placeholder={'Username'}
             />
             {ifExists === 'userName' && !errors.userName && (
-              <span className={s.error}>User with this username is already registered</span>
+              <Typography className={s.error} variant={'regular-text-14'}>
+                User with this username is already registered
+              </Typography>
             )}
             <ControlledTextField
               className={s.form_input}
@@ -125,7 +127,9 @@ export function RegistrationForm() {
               placeholder={'Email'}
             />
             {ifExists === 'email' && !errors.email && (
-              <span className={s.error}>User with this email is already registered</span>
+              <Typography className={s.error} variant={'regular-text-14'}>
+                User with this email is already registered
+              </Typography>
             )}
             <ControlledTextField
               className={s.form_input}
