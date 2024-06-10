@@ -16,7 +16,7 @@ import { useRouter } from 'next/router'
 import s from './CreatePassword.module.scss'
 
 export default function CreatePassword() {
-  const [createPassword] = useCreatePasswordMutation()
+  const [createPassword, { isLoading }] = useCreatePasswordMutation()
 
   const [codeRecovery, setCodeRecovery] = useState('')
   const router = useRouter()
@@ -29,13 +29,27 @@ export default function CreatePassword() {
     }
   }, [queryCode])
 
-  const { control, handleSubmit, reset } = useForm<NewPasswordSchemaParams>({
+  const {
+    control,
+    formState: { isValid },
+    handleSubmit,
+    reset,
+    trigger,
+    watch,
+  } = useForm<NewPasswordSchemaParams>({
     defaultValues: {
       newPassword: '',
       passwordConfirmation: '',
     },
+    mode: 'onChange',
     resolver: zodResolver(newPasswordSchema),
   })
+
+  const newPassword = watch('newPassword')
+
+  useEffect(() => {
+    trigger('passwordConfirmation')
+  }, [newPassword, trigger])
 
   const onSubmit: SubmitHandler<NewPasswordParams> = async data => {
     if (!data) {
@@ -81,7 +95,12 @@ export default function CreatePassword() {
         <Typography className={s.instruction} variant={'regular-text-14'}>
           Your password must be between 6 and 20 characters
         </Typography>
-        <Button className={s.submitButton} fullWidth type={'submit'}>
+        <Button
+          className={s.submitButton}
+          disabled={isLoading || !isValid}
+          fullWidth
+          type={'submit'}
+        >
           Create new password
         </Button>
       </form>

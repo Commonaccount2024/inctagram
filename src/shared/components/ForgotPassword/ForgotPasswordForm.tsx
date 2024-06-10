@@ -24,7 +24,7 @@ export default function ForgotPasswordForm() {
 
   const {
     control,
-    formState: { errors },
+    formState: { errors, isValid },
     handleSubmit,
     reset,
     setValue,
@@ -33,6 +33,7 @@ export default function ForgotPasswordForm() {
       email: '',
       recaptcha: undefined,
     },
+    mode: 'onChange',
     resolver: zodResolver(forgotPasswordSchema),
   })
 
@@ -77,7 +78,12 @@ export default function ForgotPasswordForm() {
         <Typography className={s.instruction} variant={'regular-text-14'}>
           Enter your email address and we will send you further instructions
         </Typography>
-        <Button className={s.submitButton} disabled={isLoading} fullWidth type={'submit'}>
+        <Button
+          className={s.submitButton}
+          disabled={isLoading || !isValid}
+          fullWidth
+          type={'submit'}
+        >
           Send Link
         </Button>
         <Button className={s.backToSignIn} type={'button'} variant={'text-button'}>
