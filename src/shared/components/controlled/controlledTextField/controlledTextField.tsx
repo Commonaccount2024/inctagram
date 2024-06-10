@@ -11,6 +11,7 @@ type ControlledInputProps<T extends FieldValues> = Omit<
 export const ControlledTextField = <T extends FieldValues>({
   control,
   name,
+  rules,
   ...restProps
 }: ControlledInputProps<T>) => {
   const {
@@ -19,6 +20,7 @@ export const ControlledTextField = <T extends FieldValues>({
   } = useController({
     control,
     name,
+    rules,
   })
 
   return <TextField error={error?.message} {...field} {...restProps} />

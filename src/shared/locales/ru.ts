@@ -8,13 +8,20 @@ export const ru = {
   passwordRecoveryPage: {
     title: 'Восстановления пароля',
   },
-  singInPage: {
+  privacyPolicy: {
+    backToSign: 'Вернуться к регистрации',
+    title: 'Политика конфиденциальности',
+  },
+  signInPage: {
     title: 'Авторизация',
   },
-  singUpPage: {
+  signUpPage: {
     title: 'Регистрация',
   },
-  test: 'Главная страница',
+  termsOfService: {
+    backToSign: 'Вернуться к регистрации',
+    title: 'Условия использования',
+  },
   title: 'Главная страница',
 }
 

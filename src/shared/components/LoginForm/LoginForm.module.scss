@@ -1,0 +1,42 @@
+.div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 23px;
+}
+
+.title {
+  margin-bottom: 13px;
+}
+
+.form {
+  margin-top: 24px;
+}
+
+.error {
+  max-width: 330px;
+  color: var(--Danger-500);
+}
+
+.inputPassword {
+  width: 330px;
+  margin-top: 24px;
+}
+
+.forgotPassword {
+  margin-top: 36px;
+  margin-bottom: 24px;
+  color: var(--Light-900);
+  text-align: end;
+}
+
+.text {
+  margin: 18px;
+  color: var(--Light-100);
+}
+
+.signUp {
+  font-weight: 600;
+  color: var(--Primary-500);
+}

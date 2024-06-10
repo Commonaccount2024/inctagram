@@ -1,13 +1,14 @@
+import CreatePassword from '@/shared/components/CreatePassword/CreatePassword'
 import { HeadMeta } from '@/shared/components/headMeta/HeadMeta'
 import { useRouterLocaleDefination } from '@/shared/hooks/useRouterLocaleDefination'
 
-export default function SingIn() {
+export default function CreateNewPassword() {
   const routerLocale = useRouterLocaleDefination()
 
   return (
     <>
-      <HeadMeta title={routerLocale.singInPage.title} />
-      <h1>{routerLocale.singInPage.title}</h1>
+      <HeadMeta title={routerLocale.createNewPasswordPage.title} />
+      <CreatePassword />
     </>
   )
 }

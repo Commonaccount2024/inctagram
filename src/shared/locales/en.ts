@@ -10,12 +10,19 @@ export const en: LocaleType = {
   passwordRecoveryPage: {
     title: 'Password recovery page',
   },
-  singInPage: {
-    title: 'Sing in page',
+  privacyPolicy: {
+    backToSign: 'Back to Sign Up',
+    title: 'Privacy Policy',
   },
-  singUpPage: {
-    title: 'Sing up page',
+  signInPage: {
+    title: 'Sign in',
   },
-  test: 'Main page',
+  signUpPage: {
+    title: 'Sign up',
+  },
+  termsOfService: {
+    backToSign: 'Back to Sign Up',
+    title: 'Terms of Service',
+  },
   title: 'Main page',
 }

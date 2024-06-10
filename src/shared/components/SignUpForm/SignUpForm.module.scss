@@ -1,0 +1,49 @@
+.div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 23px;
+}
+
+.form {
+  max-width: 380px;
+
+  &_input {
+    width: 330px;
+    margin-bottom: 24px;
+  }
+
+  .confirm {
+    margin-bottom: 12px;
+  }
+
+  .policy {
+    font-size: 12px;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 16px;
+    color: var(--Primary-300, #4c8dff);
+    text-decoration-line: underline;
+  }
+
+  .checkboxContainer {
+    display: flex;
+    gap: 0 4px;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+}
+
+.error {
+  color: var(--Danger-500);
+}
+
+.title {
+  margin-bottom: 13px;
+}
+
+.signIn {
+  font-weight: 600;
+  color: var(--Primary-500);
+}
