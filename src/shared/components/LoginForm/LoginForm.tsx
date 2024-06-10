@@ -10,7 +10,6 @@ import { Button, Card, Typography } from '@commonaccount2024/inctagram-ui-kit'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { isValid } from 'zod'
 
 import s from './LoginForm.module.scss'
 
