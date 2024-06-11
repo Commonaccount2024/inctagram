@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 
@@ -10,7 +10,6 @@ import { Button, Card, Typography } from '@commonaccount2024/inctagram-ui-kit'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { isValid } from 'zod'
 
 import s from './LoginForm.module.scss'
 
@@ -36,6 +35,7 @@ const LoginForm = () => {
   const dispatch = useDispatch()
   const [loginUser] = useLoginMutation()
   const [error, setError] = useState<null | string>(null)
+  const signUpLinkRef = useRef<HTMLAnchorElement>(null)
   const onSubmit = async (data: LoginParams) => {
     try {
       const response = await loginUser(data).unwrap()
@@ -50,8 +50,14 @@ const LoginForm = () => {
   const handleClickOutside = useCallback(
     async (event: MouseEvent) => {
       const form = document.querySelector(`.${s.form}`)
+      const signUpLink = signUpLinkRef.current
 
-      if (form && !form.contains(event.target as Node)) {
+      if (
+        form &&
+        !form.contains(event.target as Node) &&
+        signUpLink &&
+        !signUpLink.contains(event.target as Node)
+      ) {
         await trigger()
       }
     },
@@ -110,7 +116,7 @@ const LoginForm = () => {
       <Typography className={s.text} variant={'regular-text-16'}>
         Don&apos;t have an account?
       </Typography>
-      <Link className={s.signInLink} href={'/signUp'}>
+      <Link className={s.signInLink} href={'/signUp'} ref={signUpLinkRef}>
         <Typography className={s.signUp} variant={'regular-text-16'}>
           Sign Up
         </Typography>
